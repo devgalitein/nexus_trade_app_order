@@ -1,0 +1,101 @@
+// let html = ejs.render('<div class="h5"><%= data.name %></div>', {
+  //   data,
+  // });
+  // console.log("first", html);
+  // document.getElementById("dataBlock").insertAdjacentHTML("afterend", html);
+  // document.getElementById("dataBlock").insertAdjacentHTML("u");
+
+
+
+
+  app.get("/user", (req, res) => {
+    const url = url.parse(req.url, true).query;
+    // const request_token = url.request_token;
+  
+    const checksum = hash
+      .sha256()
+      .update(`${API_KEY}${url.request_token}${API_SECRET}`)
+      .digest("hex");
+  
+    createAccessToken(checksum);
+  
+    res.sendFile(__dirname + "/user.html");
+  });
+  
+
+  
+
+
+
+
+
+
+  const url = require("url");
+const http = require("http");
+const cors = require("cors");
+const path = require("path");
+const hash = require("hash.js");
+const dotenv = require("dotenv");
+const express = require("express");
+const { Server } = require("socket.io");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const dotenvExpand = require("dotenv-expand");
+const expressLayouts = require("express-ejs-layouts");
+
+dotenvExpand.expand(dotenv.config());
+
+const app = express();
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "nexus trade",
+    resave: true,
+    saveUninitialized: true,
+    cookie: { maxAge: 1000 * 60 * 2 },
+  })
+);
+
+// app.use(cors());
+app.use(expressLayouts);
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.set("view engine", "ejs");
+app.set("layout", "layouts/web");
+app.set("layout extractStyles", true);
+app.set("layout extractScripts", true);
+app.set("views", path.join(__dirname, "views"));
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+const PORT = process.env.PORT || 7000;
+const API_KEY = process.env.API_KEY;
+const API_SECRET = process.env.API_SECRET;
+
+const { home, user, test } = require("./controllers/userController");
+
+require("./config/dbConnection");
+const session_url = "https://api.kite.trade/session/token";
+
+app.get("/", home);
+app.get("/user", user);
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  //socket.emit('broadcast',{ description: clients + ' clients connected!'});
+
+  socket.on("test", test);
+
+  // socket.on("disconnect", function () {
+  //   console.log("A user disconnected");
+  // });
+});
+
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

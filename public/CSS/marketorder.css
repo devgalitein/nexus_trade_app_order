@@ -1,0 +1,8 @@
+.bank-main-div {
+  display: flex;
+  align-items: baseline;
+}
+.bank-status-div {
+  display: flex;
+  align-items: baseline;
+}

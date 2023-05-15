@@ -1,0 +1,35 @@
+<%- contentFor('body') %>
+
+<div class="w-50 mx-auto my-5">
+  <div class="card shadow">
+    <div class="card-body text-center">
+      <div class="h5"><%= user.name %></div>
+      <div class="h5"><%= user.email %></div>
+      <div id="dataBlock"></div>
+    </div>
+  </div>
+</div>
+
+<!-- <% console.log(user); %> -->
+<script>
+  socket.emit("get:market-quotes", { name: "Hari" }, (data) => {
+    console.log("EMIT callback", data);
+  });
+  // // console.log("first", `${<%= user %>}`);
+  // // const user = { name: "Narayan", email: "narayan@gmail.com", userId:"jsdgj" };
+
+  // let start=9,end=15;
+  // var interval = setInterval(function () {
+  //   const date = new Date();
+  //   const hour = date.getHours();
+  //   const minutes = date.getMinutes();
+  //     if ((hour >=start && hour <= end) && ( (hour!=start && hour!=end) || ((hour == start && minutes > 15) || (hour == end && minutes < 30)))) {
+  //       socket.emit("get:market-quotes", { name: "Hari" }, (data) => {
+  //         console.log("EMIT callback", data);
+  //       });
+  //     }
+  //     else{
+  //       clearInterval(interval);
+  //     }
+  // }, 1000)
+</script>
