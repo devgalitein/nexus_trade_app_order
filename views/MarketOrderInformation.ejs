@@ -70,6 +70,7 @@
             <button
               type="button"
               class="btn btn-danger"
+              id="all-order-market"
               onclick="getOrdermarketprice('M')"
             >
               M
@@ -77,6 +78,7 @@
             <button
               type="button"
               class="btn btn-danger"
+              id="all-order-sl"
               onclick="getOrdermarketprice('SL')"
             >
               SL
@@ -89,9 +91,14 @@
       </tbody>
     </table>
   </div>
+  <script
+    type="text/JavaScript"
+    src="https://MomentJS.com/downloads/moment.js"
+  ></script>
   <script>
-    const getOrdermarketprice = () => {
-      window.location.href = `getOrdermarketprice`;
+    const getOrdermarketprice = (type) => {
+      // this.setAttribute("disabled");
+      window.location.href = `getOrdermarketprice/${type}`;
     };
     const getmarketprice = (id, type) => {
       console.log("iddddd", id, type);
@@ -100,6 +107,8 @@
     };
     const getStreagtry = (id, type) => {
       console.log("iddddd", id, type);
+      document.getElementById(`stra${id}`).disabled = true;
+
       window.location.href = `/OrderStrategy/${id}/${type}`;
     };
     let marketorder;
@@ -107,6 +116,16 @@
     var target = document.getElementById("order-info");
     var target1 = document.getElementById("order-infos");
     var btPrice;
+    setInterval(async () => {
+      var CurrentDate = moment().format("HH:mm");
+      let get_time = localStorage.getItem("entry-time");
+      console.log("CurrentDate", CurrentDate, get_time);
+      if (CurrentDate === get_time) {
+        location.reload();
+      } else {
+        return;
+      }
+    }, 60000);
     setInterval(async () => {
       socket.emit("nifty-data", marketorder);
 
@@ -124,6 +143,7 @@
       let strDiv1 = document.createElement("div");
 
       entrytime = data[0]?.entry_date_time;
+      console.log("entrytime", data);
       if (data.length === 0) {
         document.getElementById("main-status-box").style.display = "none";
         document.getElementById("main-status-box1").style.display = "none";
@@ -348,7 +368,9 @@
     setInterval(async () => {
       socket.emit("order-final-data", orderDetail);
       socket.on("order-final-data-getted", function (data) {
-        console.log("datadatadatadata----->", data);
+        // if (data) {
+        //   location.reload();
+        // }
         let profitCount = 0;
         let totalprofitCount = 0;
         let profitCount1 = 0;
@@ -542,6 +564,9 @@
               (pointPlus - btPrice).toFixed(2) +
               (pointMinus - btPrice).toFixed(2);
           } else {
+            // document.getElementsByClassName("all-order-market").setAttribute(dis)
+            // document.getElementById("all-order-market").disabled = true;
+            // document.getElementById("all-order-sl").disabled = true;
             document.getElementById("point-reached").innerText =
               "Point reached";
           }
@@ -588,8 +613,4 @@
       });
     }, 1000);
   </script>
-  <script
-    type="text/JavaScript"
-    src="https://MomentJS.com/downloads/moment.js"
-  ></script>
 </body>

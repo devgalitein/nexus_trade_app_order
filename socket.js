@@ -2,7 +2,7 @@ const {
   orderWatcher,
   strategiesWatcher,
   MarketOrder,
-} = require("./controllers/strategyController");
+} = require("./controllers/strategyController.js");
 // const { marketQuotes } = require("./controllers/userController");
 
 module.exports = function (io) {

@@ -443,30 +443,28 @@ exports.strategiesWatcher = async () => {
     let legs = await getOrdersLegs();
     if (legs) {
       let order = [];
-
+      let legId = [];
       const bnPrice = await getNiftyPrice();
       let strike = Math.round(bnPrice / 100) * 100;
 
       for (let index = 0; index < legs.length; index++) {
         let leg = legs[index];
 
+        legId.push(leg.id);
         let totalQuantity = leg.quantity / 25;
         let current_time = moment(new Date(), "HH:mm:ss").format("HH:mm");
-        const remainingQuantity = totalQuantity;
-        const chunkSize = leg.allow_order;
-
-        const numberOfChunks = Math.ceil(remainingQuantity / chunkSize);
-        const chunkQuantities = [];
-
-        for (let i = 0; i < numberOfChunks; i++) {
-          const chunkQuantity = Math.min(
-            chunkSize,
-            remainingQuantity - i * chunkSize
-          );
-          chunkQuantities.push(chunkQuantity);
-        }
-
-        for (let j = 0; j < chunkQuantities.length; j++) {
+        let remainingQut = totalQuantity - leg.allow_order;
+        if (totalQuantity < leg.allow_order) {
+          if (
+            current_time >=
+              moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+            current_time <=
+              moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+            current_time <= moment(leg.exit_time, "HH:mm:ss").format("HH:mm")
+          ) {
+            await this.addOrder({ leg: leg, remainqty: false });
+          }
+        } else {
           if (
             current_time >=
               moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
@@ -497,7 +495,7 @@ exports.strategiesWatcher = async () => {
                 buy_sell: leg.buy_sell,
                 strike_price: strike_price,
                 call_put: leg.call_put,
-                quantity: chunkQuantities[j] * 25,
+                quantity: leg.allow_order * 25,
                 entry_price: currentRate,
                 entry_bn: bnPrice,
                 entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
@@ -507,16 +505,105 @@ exports.strategiesWatcher = async () => {
                   ? orderData?.[2]?.status_message
                   : "",
               };
-
+              if (remainingQut) {
+                let newDataremain = {
+                  strategy_id: leg.strategy_id,
+                  setting_id: leg.setting_id,
+                  leg_id: leg.id,
+                  buy_sell: leg.buy_sell,
+                  strike_price: strike_price,
+                  call_put: leg.call_put,
+                  quantity: remainingQut * 25,
+                  entry_price: currentRate,
+                  entry_bn: bnPrice,
+                  entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
+                  created_at: moment().format("YYYY-MM-DD"),
+                  order_live_id: place_order.order_id,
+                  order_error: orderData?.[2].status
+                    ? orderData?.[2]?.status_message
+                    : "",
+                };
+                order.push(newDataremain);
+              }
               order.push(newData);
             }
           }
         }
       }
       if (order.length > 0) {
-        await this.addOrder({ leg: order, remainqty: true });
+        await this.addOrder({ leg: order, remainqty: true, legId: legId });
       }
 
+      //   for (let i in legs) {
+      //     let leg = legs[i];
+      //     let totalQuantity = leg.quantity / 25;
+      //     let current_time = moment(new Date(), "HH:mm:ss").format("HH:mm");
+      //     let remainingQut = totalQuantity - leg.allow_order;
+
+      //     if (totalQuantity < leg.allow_order) {
+      //       if (
+      //         current_time >=
+      //           moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+      //         current_time <=
+      //           moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+      //         current_time <= moment(leg.exit_time, "HH:mm:ss").format("HH:mm")
+      //       ) {
+      //         await this.addOrder(leg);
+      //       }
+      //     } else {
+      //       let strike_price = strike + leg.strike_price;
+      //       let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
+      //       let quote = await getQuotes([code]);
+      //       let quoteval = quote ? quote[code] : null;
+      //       if (quoteval) {
+      //         let currentRate = quoteval.last_price;
+      //         let params = {
+      //           exchange: "NFO",
+      //           tradingsymbol: `BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`,
+      //           transaction_type: leg.buy_sell == "Buy" ? "BUY" : "SELL",
+      //           quantity: leg.quantity,
+      //           product: "MIS",
+      //           order_type: leg.order_type,
+      //         };
+      //         const place_order = await placeOrder("regular", params);
+      //         const orderData = await getOrderdata(place_order.order_id);
+      //         let myPreparedObject = {
+      //           strategy_id: leg.strategy_id,
+      //           setting_id: leg.setting_id,
+      //           leg_id: leg.id,
+      //           buy_sell: leg.buy_sell,
+      //           strike_price: strike_price,
+      //           call_put: leg.call_put,
+      //           quantity: leg.quantity,
+      //           entry_price: currentRate,
+      //           entry_bn: bnPrice,
+      //           entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
+      //           created_at: moment().format("YYYY-MM-DD"),
+      //           order_live_id: place_order.order_id,
+      //           order_error: orderData?.[2].status
+      //             ? orderData?.[2]?.status_message
+      //             : "",
+      //         };
+      //         order.push(...order, myPreparedObject);
+      //       }
+
+      //       // await this.callSecondQuantity(leg, remainingQut, current_time);
+      //       //   if (
+      //       //     current_time >=
+      //       //       moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+      //       //     current_time <=
+      //       //       moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+      //       //     current_time <= moment(leg.exit_time, "HH:mm:ss").format("HH:mm")
+      //       //   ) {
+      //       //     await this.callFirstQuantity(leg, remainingQut, current_time);
+
+      //       //     // await this.addOrder({ leg: prepareFirstObject });
+      //       //     // setTimeout(async () => {
+      //       //     //   await this.addOrder({ leg: extraQuantityObject });
+      //       //     // }, 3000);
+      //       //   }
+      //     }
+      //   }
       return;
     }
     return;
@@ -525,9 +612,25 @@ exports.strategiesWatcher = async () => {
   }
 };
 
+exports.callSecondQuantity = async (data, remainingQut, current_time) => {
+  let extraQuantityObject = data;
+  extraQuantityObject.quantity = remainingQut * 25;
+  //   await this.secondaddOrder(extraQuantityObject);
+};
+
+exports.callFirstQuantity = async (data, remainingQut, current_time) => {
+  let prepareFirstObject = data;
+  prepareFirstObject.quantity = data.allow_order * 25;
+
+  await this.addOrder({
+    prepareFirstObject: prepareFirstObject,
+    remainingQut: remainingQut,
+  });
+};
+
 exports.addOrder = async (req, res) => {
   try {
-    let { leg, remainqty } = req;
+    let { leg, remainqty, legId } = req;
     if (remainqty) {
       for (let index = 0; index < leg.length; index++) {
         const element = leg[index];
@@ -539,14 +642,51 @@ exports.addOrder = async (req, res) => {
             "YYYY-MM-DD"
           )}" AND exit_date_time IS NULL`,
           async (err, result) => {
-            console.log("errerrerrerrerrerr", err);
             if (result && result.length <= 0) {
               sql.query(query, [element]);
             }
           }
         );
       }
+    } else {
+      sql.query(
+        `SELECT * FROM orders where created_at ="${moment().format(
+          "YYYY-MM-DD"
+        )}" AND exit_date_time IS NULL`,
+        async (err, result) => {
+          if (result && result.length <= 0) {
+            commonFunctionForDataInsert(leg);
+          }
+        }
+      );
     }
+
+    // sql.query(
+    //   `SELECT * FROM orders where leg_id=${
+    //     leg.id
+    //   } AND created_at ="${moment().format(
+    //     "YYYY-MM-DD"
+    //   )}" AND exit_date_time IS NULL`,
+    //   async (err, result) => {
+    //     if (result && result.length <= 0) {
+    // commonFunctionForDataInsert(leg);
+    //     }
+    //     // sql.query(
+    //     //   `SELECT * FROM orders where leg_id=${
+    //     //     leg.id
+    //     //   } AND created_at ="${moment().format(
+    //     //     "YYYY-MM-DD"
+    //     //   )}" AND exit_date_time IS NULL`,
+    //     //   async (err, result) => {
+    //     //     if (result && result.length <= 0) {
+    //     //       let preparedNewObj = leg;
+    //     //       preparedNewObj.quantity = req.remainingQut * 25;
+    //     //       commonFunctionForDataInsert(preparedNewObj);
+    //     //     }
+    //     //   }
+    //     // );
+    //   }
+    // );
   } catch (err) {
     console.log("err");
   }

@@ -55,9 +55,9 @@ const {
   orderForMarket,
   orderData,
   OrderStrategy,
-  getOrdermarketPrice,
+  getOrdermarketprice,
   // getBankHolidays
-} = require("./controllers/strategyController");
+} = require("./controllers/strategyController.js");
 // const {
 // createWatchList,
 // updateWatchList,
@@ -76,7 +76,7 @@ app.get("/strategiesWatcher", strategiesWatcher);
 app.get("/orderWatcher", orderWatcher);
 app.get("/orderForMarket/:id/:type", orderForMarket);
 app.get("/OrderStrategy/:id/:type", OrderStrategy);
-app.get("/getOrdermarketprice/:type", getOrdermarketPrice);
+app.get("/getOrdermarketprice/:type", getOrdermarketprice);
 app.get("/", setting);
 
 require("./socket")(io);

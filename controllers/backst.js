@@ -449,9 +449,11 @@ exports.strategiesWatcher = async () => {
 
       for (let index = 0; index < legs.length; index++) {
         let leg = legs[index];
+        // console.log("legleglegleg", leg);
 
         let totalQuantity = leg.quantity / 25;
         let current_time = moment(new Date(), "HH:mm:ss").format("HH:mm");
+        // let remainingQut = totalQuantity - leg.allow_order;
         const remainingQuantity = totalQuantity;
         const chunkSize = leg.allow_order;
 
@@ -512,12 +514,89 @@ exports.strategiesWatcher = async () => {
             }
           }
         }
+
+        //   if (totalQuantity < leg.allow_order) {
+        //     if (
+        //       current_time >=
+        //         moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+        //       current_time <=
+        //         moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+        //       current_time <= moment(leg.exit_time, "HH:mm:ss").format("HH:mm")
+        //     ) {
+        //       await this.addOrder({ leg: leg, remainqty: false });
+        //     }
+        //   } else {
+        //     if (
+        //       current_time >=
+        //         moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+        //       current_time <=
+        //         moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
+        //       current_time <= moment(leg.exit_time, "HH:mm:ss").format("HH:mm")
+        //     ) {
+        //       let strike_price = strike + leg.strike_price;
+        //       let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
+        //       let quote = await getQuotes([code]);
+        //       let quoteval = quote ? quote[code] : null;
+        //       if (quoteval) {
+        //         let currentRate = quoteval.last_price;
+        //         let params = {
+        //           exchange: "NFO",
+        //           tradingsymbol: `BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`,
+        //           transaction_type: leg.buy_sell == "Buy" ? "BUY" : "SELL",
+        //           quantity: leg.quantity,
+        //           product: "MIS",
+        //           order_type: leg.order_type,
+        //         };
+        //         const place_order = await placeOrder("regular", params);
+        //         const orderData = await getOrderdata(place_order.order_id);
+        //         let newData = {
+        //           strategy_id: leg.strategy_id,
+        //           setting_id: leg.setting_id,
+        //           leg_id: leg.id,
+        //           buy_sell: leg.buy_sell,
+        //           strike_price: strike_price,
+        //           call_put: leg.call_put,
+        //           quantity: leg.allow_order * 25,
+        //           entry_price: currentRate,
+        //           entry_bn: bnPrice,
+        //           entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
+        //           created_at: moment().format("YYYY-MM-DD"),
+        //           order_live_id: place_order.order_id,
+        //           order_error: orderData?.[2].status
+        //             ? orderData?.[2]?.status_message
+        //             : "",
+        //         };
+        //         if (remainingQut) {
+        //           let newDataremain = {
+        //             strategy_id: leg.strategy_id,
+        //             setting_id: leg.setting_id,
+        //             leg_id: leg.id,
+        //             buy_sell: leg.buy_sell,
+        //             strike_price: strike_price,
+        //             call_put: leg.call_put,
+        //             quantity: remainingQut * 25,
+        //             entry_price: currentRate,
+        //             entry_bn: bnPrice,
+        //             entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
+        //             created_at: moment().format("YYYY-MM-DD"),
+        //             order_live_id: place_order.order_id,
+        //             order_error: orderData?.[2].status
+        //               ? orderData?.[2]?.status_message
+        //               : "",
+        //           };
+        //           order.push(newDataremain);
+        //         }
+        //         order.push(newData);
+        //       }
+        //     }
+        //   }
       }
+      console.log("orderorderorderorderorder---->", order);
       if (order.length > 0) {
         await this.addOrder({ leg: order, remainqty: true });
       }
 
-      return;
+      //   return;
     }
     return;
   } catch (err) {
@@ -546,6 +625,20 @@ exports.addOrder = async (req, res) => {
           }
         );
       }
+    } else {
+      sql.query(
+        `SELECT * FROM orders where leg_id=${
+          leg.id
+        } AND created_at ="${moment().format(
+          "YYYY-MM-DD"
+        )}" AND exit_date_time IS NULL`,
+        async (err, result) => {
+          if (result && result.length <= 0) {
+            console.log("legleglegleglegleg", leg);
+            commonFunctionForDataInsert(leg);
+          }
+        }
+      );
     }
   } catch (err) {
     console.log("err");
