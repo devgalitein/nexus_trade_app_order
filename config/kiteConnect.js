@@ -39,6 +39,17 @@ const getQuotes = async (codes) => {
     console.log({ err });
   }
 };
+
+const getOrders = async () => {
+  try {
+    // console.log("codes", codes);
+    const res = await kc.getOrders();
+    // console.log("resresres", res);
+    return res;
+  } catch (err) {
+    console.log({ err });
+  }
+};
 const getPositions = async () => {
   return new Promise((resolve, reject) => {
     kc.getPositions()
@@ -102,5 +113,6 @@ module.exports = {
   placeOrder,
   getHistoricalData,
   getPositions,
+  getOrders,
   getOrderdata,
 };

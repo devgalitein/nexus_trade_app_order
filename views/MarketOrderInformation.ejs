@@ -190,7 +190,7 @@
             let td1 = document.createElement("td");
             let totalDiv = document.createElement("div");
             let arrowdiv = document.createElement("div");
-            arrowdiv.innerText =
+            arrowdiv.html =
               '<i class="fa fa-chevron-down" aria-hidden="true"></i>';
             arrowdiv.setAttribute("class", "open-btn d-md-none");
 
@@ -263,7 +263,7 @@
             let td1 = document.createElement("td");
             let totalDiv = document.createElement("div");
             let arrowdiv = document.createElement("div");
-            arrowdiv.innerText =
+            arrowdiv.html =
               '<i class="fa fa-chevron-down" aria-hidden="true"></i>';
             arrowdiv.setAttribute("class", "open-btn d-md-none");
 
@@ -378,6 +378,8 @@
         let totalqty = 0;
         var endTime;
         var startTime;
+        var qtyS1 = 0;
+        var qtyS2 = 0;
         data.forEach(function (items) {
           if (items.strategy_id % 2 == 0) {
             profitCount +=
@@ -388,6 +390,7 @@
                 : items.pnl
                 ? items.pnl
                 : items.entry_price - items.current_value;
+            qtyS1 += items.quantity;
 
             totalprofitCount +=
               items.buy_sell === "Buy"
@@ -449,6 +452,8 @@
               // document.getElementById(`stra${items.id}`).disabled = true;
             }
             totalqty += items.quantity;
+            qtyS2 += items.quantity;
+
             profitCount1 +=
               items.buy_sell === "Buy"
                 ? items.pnl
@@ -591,19 +596,23 @@
           endTime = moment(endTime, "HH:mm:ss a");
         });
 
-        var hrs = moment.utc(endTime.diff(startTime)).format("HH");
-        var min = moment.utc(endTime.diff(startTime)).format("mm");
-        var sec = moment.utc(endTime.diff(startTime)).format("ss");
+        var hrs = moment.utc(endTime?.diff(startTime)).format("HH");
+        var min = moment.utc(endTime?.diff(startTime)).format("mm");
+        var sec = moment.utc(endTime?.diff(startTime)).format("ss");
         document.getElementById("Strategieswatch").innerText = [
           hrs,
           min,
           sec,
         ].join(":");
+        console.log("qtyS1qtyS1qtyS1qtyS1qtyS1", qtyS1, qtyS2);
         document.getElementById("pnlq").innerText = isNaN(
           ((totalprofitCount + totalprofitCount1) * 25).toFixed(2)
         )
           ? "0.00"
-          : ((totalprofitCount + totalprofitCount1) * 25).toFixed(2);
+          : (
+              (totalprofitCount / qtyS1) * 25 +
+              (totalprofitCount1 / qtyS2) * 25
+            ).toFixed(2);
 
         document.getElementById("pnl-over").innerText = isNaN(
           (profitCount + profitCount1).toFixed(2)

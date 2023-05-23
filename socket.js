@@ -2,6 +2,7 @@ const {
   orderWatcher,
   strategiesWatcher,
   MarketOrder,
+  positions,
 } = require("./controllers/strategyController.js");
 // const { marketQuotes } = require("./controllers/userController");
 
@@ -30,7 +31,7 @@ module.exports = function (io) {
         ) {
           // marketQuotes();
           strategiesWatcher();
-
+          positions();
           orderWatcher();
         } else {
           if (hour > start) {
