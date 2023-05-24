@@ -152,6 +152,7 @@
             let div = document.createElement("div");
             let divqut = document.createElement("div");
             let spanQut = document.createElement("span");
+            let rowDisable = document.createElement("tr");
 
             div.innerHTML =
               item.buy_sell === "Buy"
@@ -181,8 +182,10 @@
             let td1 = document.createElement("td");
             let totalDiv = document.createElement("div");
             let arrowdiv = document.createElement("div");
-            arrowdiv.html =
-              '<i class="fa fa-chevron-down" aria-hidden="true"></i>';
+            arrowdiv.innerHTML =
+              "<i class='fa fa-chevron-down' onclick='myFunction(\"leg1-btn" +
+              item.id +
+              "\")' aria-hidden='true'></i>";
             arrowdiv.setAttribute("class", "open-btn d-md-none");
 
             totalDiv.setAttribute("align", "center");
@@ -211,19 +214,31 @@
             td2.setAttribute("align", "center");
             row.appendChild(td2);
             document.getElementById("s1Id").innerText = item.name;
+            rowDisable.innerHTML = `<tr style="display: none" id="leg1-btn" class="leg1-btn d-md-none">
+          <td colspan="3">
+            <button type="button"  id="btn${item.id}" onclick=getmarketprice(${item.id},"m")  class="btn btn-danger">M</button>
+            <button type="button" " id="sl${item.id}" onclick=getmarketprice(${item.id},"SL") class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>`;
+
             target.appendChild(row).setAttribute("id", "leg-tr");
+            target.appendChild(rowDisable);
             strDiv.innerHTML = `<button type="button" class="btn btn-danger" id="stra${item.strategy_id}" onclick=getStreagtry(${item.strategy_id},"m")>M</button>
           <button type="button" class="btn btn-danger" id="stra${item.strategy_id}" onclick=getStreagtry(${item.strategy_id},"SL")>SL</button>
           <button type="button" class="btn btn-outline-warning text-dark">Orders</button>`;
           } else {
             document.getElementById("main-status-box1").style.display = "block";
-
+            let rowDisable1 = document.createElement("tr");
             let row = document.createElement("tr");
             let td = document.createElement("td");
             let span = document.createElement("span");
             let div = document.createElement("div");
             let divqut = document.createElement("div");
             let spanQut = document.createElement("span");
+
             document.getElementById("s2Id").innerText = item.name;
 
             div.innerHTML =
@@ -253,15 +268,22 @@
             row.appendChild(td);
             let td1 = document.createElement("td");
             let totalDiv = document.createElement("div");
-            let arrowdiv = document.createElement("div");
-            arrowdiv.html =
-              '<i class="fa fa-chevron-down" aria-hidden="true"></i>';
-            arrowdiv.setAttribute("class", "open-btn d-md-none");
 
             totalDiv.setAttribute("align", "center");
             td1
               .appendChild(totalDiv)
               .setAttribute("id", `totalprofitTd${item.id}`);
+            let arrowdiv = document.createElement("div");
+            arrowdiv.setAttribute("class", "open-btn d-md-none");
+
+            arrowdiv.innerHTML =
+              "<i class='fa fa-chevron-down' onclick='myFunction(\"leg1-btn" +
+              item.id +
+              "\")' aria-hidden='true'></i>";
+
+            td1.appendChild(arrowdiv);
+
+            console.log("arrowdivarrowdivarrowdiv", arrowdiv);
             td1.appendChild(arrowdiv);
 
             row
@@ -282,12 +304,25 @@
             td2.appendChild(divBtn);
             td2.setAttribute("align", "center");
             row.appendChild(td2);
+            rowDisable1.innerHTML = `<tr style='display: none' id='leg1-btn' class="leg1-btn d-md-none">
+          <td colspan="3">
+            <button type="button" id="btnRes${item.id}" onclick=getmarketprice(${item.id},"m") class="btn btn-danger">M</button>
+            <button type="button"  id="slRes${item.id}" onclick=getmarketprice(${item.id},"SL") class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>`;
+            rowDisable1.setAttribute("id", `leg1-btn${item.id}`);
 
+            rowDisable1.style.display = "none";
             target1.appendChild(row).setAttribute("id", "leg-tr");
+            target1.appendChild(rowDisable1);
             strDiv1.innerHTML = `<button type="button" class="btn btn-danger" id="stra${item.strategy_id}" onclick=getStreagtry(${item.strategy_id},"m")>M</button>
               <button type="button" class="btn btn-danger" id="stra${item.strategy_id}" onclick=getStreagtry(${item.strategy_id},"SL")>SL</button>
                <button type="button" class="btn btn-outline-warning text-dark">Orders</button>`;
           }
+
           document.getElementById("bankNiftyRound").innerText =
             item.entrystrike;
         });
@@ -312,7 +347,7 @@
         // profit.innerHTML = "<b>" + profitCount.toFixed(2) + "</b>";
         // divTotalProfit.innerHTML = "<b>" + totalprofitCount.toFixed(2) + "</b>";
         arrowTotalProfit.innerHTML =
-          "<i class='fa fa-chevron-down' aria-hidden='true'></i>";
+          "<i class='fa fa-chevron-down' onclick='myFunction()'   aria-hidden='true'></i>";
         totalprofit.appendChild(divTotalProfit);
         totalprofit
           .appendChild(arrowTotalProfit)
@@ -339,7 +374,7 @@
         // profit1.innerHTML = "<b>" + profitCount1.toFixed(2) + "</b>";
         // divTotalProfit1.innerHTML = "<b>" + totalprofitCount1.toFixed(2) + "</b>";
         arrowTotalProfit1.innerHTML =
-          "<i class='fa fa-chevron-down' aria-hidden='true'></i>";
+          "<i class='fa fa-chevron-down' onclick='myFunction()' aria-hidden='true'></i>";
         totalprofit1.appendChild(divTotalProfit1);
         totalprofit1
           .appendChild(arrowTotalProfit1)
@@ -351,9 +386,10 @@
 
         strOrder1.appendChild(strDiv1);
         strOrder1.setAttribute("align", "center");
-
         rowData1.appendChild(strOrder1);
         target1.appendChild(rowData1);
+
+        console.log("rowDisable1rowDisable1", target1);
       }
     });
     setInterval(async () => {
@@ -441,8 +477,12 @@
               exitDateTime += 1;
             }
             if (items.pnl !== null) {
+              console.log("hjell", document.getElementById(`btn${items.id}`));
               document.getElementById(`btn${items.id}`).disabled = true;
+              document.getElementById(`btnRes${items.id}`).disabled = true;
               document.getElementById(`sl${items.id}`).disabled = true;
+              document.getElementById(`slRes${items.id}`).disabled = true;
+
               // document.getElementById(`stra${items.id}`).disabled = true;
             }
             totalqty += items.quantity;
@@ -598,5 +638,17 @@
           : (profitCount + profitCount1).toFixed(2);
       });
     }, 1000);
+    function myFunction(id) {
+      console.log("idididididid", id);
+      var x = document.getElementById(id);
+      console.log("xxxxx", x);
+      if (x.style.display === "none") {
+        x.style.display = "";
+        document.getElementById("leg-tr").setAttribute("class", "leg-tr");
+      } else {
+        x.style.display = "none";
+        document.getElementById("leg-tr").setAttribute("class", "");
+      }
+    }
   </script>
 </body>

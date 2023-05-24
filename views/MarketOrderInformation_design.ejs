@@ -1,0 +1,715 @@
+<body>
+  <div class="bank-main-div">
+    <h6 class="bankNifty">
+      Bank nifty :
+      <span id="bank"></span>
+      <span>/</span>
+      <span id="bankNiftyRound">41500</span>
+    </h6>
+  </div>
+  <div class="bank-status-div bg-info">
+    <h6 class="bankNifty">
+      <b>Status :</b>
+      <span id="bank-status"><span>Both legs are active</span></span>
+    </h6>
+  </div>
+  <div class="card pt-3 px-3 mb-3 main-status-box">
+    <h6>S1</h6>
+    <table class="table mb-0">
+      <tbody>
+        <tr id="leg-tr">
+          <td>
+            <span
+              ><div class="sell_buy-value">
+                Buy 30 PE Q2 <span>(41800 PE)</span>
+              </div>
+              <div class="qut_value">QUT : 50</div></span
+            >
+          </td>
+          <td>150</td>
+          <td align="center" class="">
+            <div>3,750</div>
+            <div class="open-btn d-md-none">
+              <i
+                class="fa fa-chevron-down"
+                aria-hidden="true "
+                onclick="myFunction()"
+              ></i>
+            </div>
+          </td>
+          <td align="center">
+            <div class="d-sm-none d-none d-md-block">
+              <button type="button" class="btn btn-danger">M</button>
+              <button type="button" class="btn btn-danger">SL</button>
+              <button type="button" class="btn btn-outline-warning text-dark">
+                Orders
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr style="display: none" id="leg1-btn" class="leg1-btn d-md-none">
+          <td colspan="3">
+            <button type="button" class="btn btn-danger">M</button>
+            <button type="button" class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span
+              ><div class="sell_buy-value">
+                Buy 30 PE Q2 <span>(41800 PE)</span>
+              </div>
+              <div class="qut_value">QUT : 50</div></span
+            >
+          </td>
+          <td>-100</td>
+          <td align="center">
+            <div>2500</div>
+            <div class="open-btn d-md-none">
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+          </td>
+          <td align="center">
+            <div class="d-sm-none d-none d-md-block">
+              <button type="button" class="btn btn-danger">M</button>
+              <button type="button" class="btn btn-danger">SL</button>
+              <button type="button" class="btn btn-outline-warning text-dark">
+                Orders
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="d-md-none">
+          <td colspan="3">
+            <button type="button" class="btn btn-danger">M</button>
+            <button type="button" class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>50</b></td>
+          <td align="center">
+            <div><b>1,250</b></div>
+            <div class="open-btn d-md-none">
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+          </td>
+          <td align="center">
+            <div class="d-sm-none d-none d-md-block">
+              <button type="button" class="btn btn-danger">M</button>
+              <button type="button" class="btn btn-danger">SL</button>
+              <button type="button" class="btn btn-outline-warning text-dark">
+                Orders
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr class="d-md-none">
+          <td colspan="3">
+            <button type="button" class="btn btn-danger">M</button>
+            <button type="button" class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card pt-3 px-3 mb-3 main-status-box">
+    <h6>S2</h6>
+    <table class="table mb-0">
+      <tbody>
+        <tr>
+          <td>
+            <span
+              ><div class="sell_buy-value">
+                Buy 30 PE Q2 <span>(41800 PE)</span>
+              </div>
+              <div class="qut_value">QUT : 50</div></span
+            >
+          </td>
+          <td>150</td>
+          <td align="center">
+            <div>3,750</div>
+            <div class="open-btn">
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <button type="button" class="btn btn-danger">M</button>
+            <button type="button" class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span
+              ><div class="sell_buy-value">
+                Buy 30 PE Q2 <span>(41800 PE)</span>
+              </div>
+              <div class="qut_value">QUT : 50</div></span
+            >
+          </td>
+          <td>-50</td>
+          <td align="center">
+            <div>-1250</div>
+            <div class="open-btn">
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <button type="button" class="btn btn-danger">M</button>
+            <button type="button" class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>100</b></td>
+          <td align="center">
+            <div><b>2500</b></div>
+            <div class="open-btn">
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <button type="button" class="btn btn-danger">M</button>
+            <button type="button" class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <div class="card pt-3 px-3 mb-3 main-status-box">
+    <h6>S2</h6>
+    <table class="table mb-0">
+      <tbody>
+        <tr>
+          <td>
+            <span
+              ><div class="sell_buy-value">
+                Buy 30 PE Q2 <span>(41800 PE)</span>
+              </div>
+              <div class="qut_value">50</div></span
+            >
+          </td>
+          <td>150</td>
+          <td>3,750</td>
+          <td>
+            <button type="button" class="btn btn-success">Active</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">
+              Exit this leg on M price
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">
+              Exit this leg with SL
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              View Orders
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span
+              ><div class="sell_buy-value">
+                Buy 30 PE Q2 <span>(41800 PE)</span>
+              </div>
+              <div class="qut_value">50</div></span
+            >
+          </td>
+          <td>-100</td>
+          <td>-2500</td>
+          <td>
+            <button type="button" class="btn btn-success">Active</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">
+              Exit this leg on M price
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">
+              Exit this leg with SL
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              View Orders
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>50</td>
+          <td>1,250</td>
+          <td></td>
+          <td>
+            <button type="button" class="btn btn-danger">
+              Exit S1 on M price
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">
+              Exit S1 with SL
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              View Orders
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+  <div class="total-part-section">
+    <table class="table mb-0">
+      <tbody>
+        <tr>
+          <th>Over all</th>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <th>Pnl</th>
+          <td>-4377.50</td>
+        </tr>
+        <tr>
+          <th>Pnl for 1 lot</th>
+          <td colspan="6">-</td>
+        </tr>
+        <tr>
+          <th>Pnl %</th>
+          <td colspan="6">-12.25-11.72%</td>
+        </tr>
+        <tr>
+          <th>Point required to reach +200 or -200</th>
+          <td colspan="6">206.30-206.30</td>
+        </tr>
+        <tr>
+          <th>strategies active since (Timer)</th>
+          <td colspan="6">NaN:NaN:NaN</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <button type="button" class="btn btn-danger">M</button>
+            <button type="button" class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script
+    type="text/JavaScript"
+    src="https://MomentJS.com/downloads/moment.js"
+  ></script>
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("leg1-btn");
+      if (x.style.display === "none") {
+        x.style.display = "";
+        document.getElementById("leg-tr").setAttribute("class", "leg-tr");
+      } else {
+        x.style.display = "none";
+        document.getElementById("leg-tr").setAttribute("class", "");
+      }
+    }
+
+    let marketorder;
+    let orderDetail;
+    var target = document.getElementById("order-info");
+    var target1 = document.getElementById("order-infos");
+    var btPrice;
+    setInterval(async () => {
+      socket.emit("nifty-data", marketorder);
+
+      socket.on("nifty-data-getted", function (data) {
+        var x = document.getElementById("bank").value;
+        btPrice = data;
+
+        document.getElementById("bank").innerText = data;
+      });
+    }, 1000);
+
+    function percentage(partialValue, totalValue) {
+      return (100 * partialValue) / totalValue;
+    }
+
+    socket.emit("order-data", orderDetail);
+    let profit = 0;
+    let totalprofit = 0;
+    let totals = 0;
+    let profit1 = 0;
+    let totalprofit1 = 0;
+    let totals1 = 0;
+    let entrytime = "";
+    let exitTime = "";
+
+    socket.on("order-data-getted", function (data) {
+      console.log("datadatadata-------->", data);
+      entrytime = data[0]?.entry_date_time;
+      var rowData = document.createElement("tr");
+      var per = document.createElement("tr");
+      var per1 = document.createElement("tr");
+      var rowData1 = document.createElement("tr");
+      var x = document.getElementById("bank").value;
+      data.map((item) => {
+        if (item.strategy_id === 1) {
+          let row = document.createElement("tr");
+          row.appendChild(document.createElement("td")).textContent =
+            item.buy_sell === "Buy"
+              ? "Buy" +
+                item.strikeCurrent +
+                item.call_put +
+                "Q" +
+                item.quantity / 25
+              : "Sell" +
+                item.strikeCurrent +
+                " " +
+                item.call_put +
+                "Q" +
+                item.quantity / 25;
+
+          row.appendChild(document.createElement("td")).textContent =
+            item.strike_price + " " + item.call_put;
+          row.appendChild(document.createElement("td")).textContent =
+            item.quantity;
+          row
+            .appendChild(document.createElement("td"))
+            .setAttribute("id", `profitTd${item.id}`);
+          row
+            .appendChild(document.createElement("td"))
+            .setAttribute("id", `totalprofitTd${item.id}`);
+          target.appendChild(row);
+          profitDiff = item.exit_price
+            ? item.exit_price - item.entry_price
+            : item.current_value - item.entry_price;
+          // totals = item.entry_price * item.quantity;
+          profit = parseFloat(profitDiff) + parseFloat(profit);
+          console.log("profitprofitprofit", profit);
+
+          totals = item.entry_price * item.quantity;
+          totalprofit += (item.exit_price - item.entry_price) * item.quantity;
+        } else {
+          console.log("item.strategy_id ", item.strategy_id);
+
+          let row = document.createElement("tr");
+          row.appendChild(document.createElement("td")).textContent =
+            item.buy_sell === "Buy"
+              ? "Buy " + item.strikeCurrent + " " + item.call_put
+              : "Sell" + item.strikeCurrent + " " + item.call_put;
+          // row.appendChild(document.createElement("td")).textContent =
+          //   ;
+          row.appendChild(document.createElement("td")).textContent =
+            item.strike_price + " " + item.call_put;
+          row.appendChild(document.createElement("td")).textContent =
+            item.quantity;
+          row
+            .appendChild(document.createElement("td"))
+            .setAttribute("id", `profitTd${item.id}`);
+
+          row
+            .appendChild(document.createElement("td"))
+            .setAttribute("id", `totalprofitTd${item.id}`);
+
+          target1.appendChild(row);
+          profitDiff = item.exit_price - item.entry_price;
+          totals1 = item.entry_price * item.quantity;
+          profit1 = parseFloat(profitDiff) + parseFloat(profit1);
+          totalprofit1 += (item.exit_price - item.entry_price) * item.quantity;
+          document.getElementById("bank-status").innerText =
+            item.entry_date_time !== "" && item.strategy_id === 2
+              ? item.exit_price !== null &&
+                item.strategy_id === 2 &&
+                "Two leg exit"
+              : "Two leg active";
+        }
+        exitTime = item.exit_date_time;
+      });
+
+      rowData
+        .appendChild(document.createElement("td"))
+        .setAttribute("colspan", 3);
+      rowData
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "profit");
+      rowData
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "totalProfit");
+      per.appendChild(document.createElement("td")).setAttribute("colspan", 4);
+      per
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "percentage1");
+      target.appendChild(rowData);
+      target.appendChild(per);
+      per1.appendChild(document.createElement("td")).setAttribute("colspan", 4);
+
+      per1
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "percentage2");
+      rowData1
+        .appendChild(document.createElement("td"))
+        .setAttribute("colspan", 3);
+      rowData1
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "profit1");
+      rowData1
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "totalProfit1");
+      target1.appendChild(rowData1);
+      target1.appendChild(per1);
+      var overall = document.createElement("tr");
+      overall
+        .appendChild(document.createElement("td"))
+        .setAttribute("colspan", 2);
+      overall.appendChild(document.createElement("td")).textContent =
+        "Over all";
+      var pnl = document.createElement("tr");
+      pnl.appendChild(document.createElement("td")).setAttribute("colspan", 2);
+      pnl.appendChild(document.createElement("td")).textContent = "Pnl";
+      pnl.appendChild(document.createElement("td")).setAttribute("id", "pnl");
+      var pnl1 = document.createElement("tr");
+      pnl1.appendChild(document.createElement("td")).setAttribute("colspan", 2);
+      pnl1.appendChild(document.createElement("td")).textContent =
+        "PnL for 1 lot";
+      pnl1
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "pnlQ1");
+      var pnl2 = document.createElement("tr");
+      pnl2.appendChild(document.createElement("td")).setAttribute("colspan", 2);
+      pnl2.appendChild(document.createElement("td")).textContent = "PnL %";
+      pnl2.appendChild(document.createElement("td")).setAttribute("id", "pnl2");
+      var ponitReach = document.createElement("tr");
+      ponitReach
+        .appendChild(document.createElement("td"))
+        .setAttribute("colspan", 2);
+      ponitReach
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "pointreachpl");
+      ponitReach
+        .appendChild(document.createElement("td"))
+        .setAttribute("id", "pointReach");
+      var Strategieswatch = document.createElement("tr");
+      Strategieswatch.appendChild(document.createElement("td")).setAttribute(
+        "colspan",
+        2
+      );
+      Strategieswatch.appendChild(document.createElement("td")).textContent =
+        "Strategies active since (Timer)";
+      Strategieswatch.appendChild(document.createElement("td")).setAttribute(
+        "id",
+        "Strategieswatch"
+      );
+
+      target1.appendChild(overall);
+      target1.appendChild(pnl);
+      target1.appendChild(pnl1);
+      target1.appendChild(pnl2);
+      target1.appendChild(ponitReach);
+      target1.appendChild(Strategieswatch);
+    });
+    function getNextDayOfWeek(date, dayOfWeek) {
+      var resultDate = new Date(date.getTime());
+      resultDate.setDate(
+        date.getDate() + ((7 + dayOfWeek - date.getDay()) % 7)
+      );
+      return resultDate;
+    }
+    function getNextToNextThurDayOfWeek(date, dayOfWeek) {
+      var resultDate = new Date(date.getTime());
+      resultDate.setDate(
+        date.getDate() + ((7 + dayOfWeek - date.getDay()) % 7) + 7
+      );
+      return resultDate;
+    }
+    setInterval(async () => {
+      console.log("btPricebtPricebtPrice", btPrice);
+      let profitCol = 0;
+      let profitCol1 = 0;
+      let totalprofitCol = 0;
+      let totalprofitCol1 = 0;
+      socket.emit("order-final-data", orderDetail);
+      socket.on("order-final-data-getted", function (data) {
+        data.forEach(function (items) {
+          console.log("datadatadatadata", items);
+          if (items.strategy_id % 2 == 0) {
+            document.getElementById(`profitTd${items.id}`).innerText = (
+              items.exit_date_time !== null
+                ? items.exit_price - items.entry_price
+                : items.current_value - items.entry_price
+            ).toFixed(2);
+            document.getElementById(`totalprofitTd${items.id}`).innerText = (
+              items.exit_date_time !== null
+                ? (items.exit_price - items.entry_price) * items.quantity
+                : (items.current_value - items.entry_price) * items.quantity
+            ).toFixed(2);
+
+            profitCol +=
+              items.exit_date_time !== null
+                ? items.exit_price - items.entry_price
+                : items.current_value - items.entry_price;
+            totalprofitCol +=
+              items.exit_date_time !== null
+                ? (items.exit_price - items.entry_price) * items.quantity
+                : (items.current_value - items.entry_price) * items.quantity;
+            console.log("profitColprofitColprofitCol", profitCol);
+            document.getElementById("profit").innerText = profitCol.toFixed(2);
+            document.getElementById("totalProfit").innerText =
+              totalprofitCol.toFixed(2);
+            document.getElementById("bank-status").innerText =
+              items.entry_date_time !== "" && items.strategy_id === 1
+                ? items.exit_price !== null &&
+                  items.strategy_id === 1 &&
+                  "One leg exit"
+                : "One leg active";
+          } else {
+            document.getElementById(`profitTd${items.id}`).innerText =
+              items.exit_date_time !== null
+                ? items.exit_price - items.entry_price
+                : items.current_value - items.entry_price;
+            document.getElementById(`totalprofitTd${items.id}`).innerText = (
+              items.exit_date_time !== null
+                ? (items.exit_price - items.entry_price) * items.quantity
+                : (items.current_value - items.entry_price) * items.quantity
+            ).toFixed(2);
+            profitCol1 +=
+              items.exit_date_time !== null
+                ? items.exit_price - items.entry_price
+                : items.current_value - items.entry_price;
+            totalprofitCol1 +=
+              items.exit_date_time !== null
+                ? (items.exit_price - items.entry_price) * items.quantity
+                : (items.current_value - items.entry_price) * items.quantity;
+
+            document.getElementById("profit1").innerText =
+              profitCol1.toFixed(2);
+            document.getElementById("totalProfit1").innerText =
+              totalprofitCol1.toFixed(2);
+            document.getElementById(
+              "pointreachpl"
+            ).innerText = `Points required to reach +${items.exit_bn_profit} or -${items.exit_bn_loss}`;
+            document.getElementById("bank-status").innerText =
+              items.entry_date_time !== "" && items.strategy_id === 2
+                ? items.exit_price !== null &&
+                  items.strategy_id === 2 &&
+                  "Two leg exit"
+                : "Two leg active";
+          }
+          var a = moment(new Date()).toString();
+
+          var date = new Date();
+
+          console.log("bbdjfghshf", moment(a).format("YYYY-MM-DD HH:MM:ss"));
+          var current_date =
+            date.getFullYear() +
+            "-" +
+            (date.getMonth() + 1) +
+            "-" +
+            date.getDate() +
+            " " +
+            date.getHours() +
+            ":" +
+            date.getMinutes() +
+            ":" +
+            date.getSeconds();
+          let calculatePoint = items.strike_price - items.strikeCurrent;
+          console.log(btPrice - 41800);
+          let point = items.entry_bn - btPrice;
+
+          console.log("pointpointpoint", point);
+          if (items.exit_date_time === null) {
+            document.getElementById("pointReach").innerText =
+              (items.exit_bn_profit - point).toFixed(2) +
+              "-" +
+              (items.exit_bn_loss - point).toFixed(2);
+          } else {
+            document.getElementById("pointReach").innerText = "Point reached";
+          }
+          console.log(
+            "items.entry_date_time",
+            items.entry_date_time,
+            items.exit_date_time,
+            moment(a).format("YYYY-MM-DD HH:MM:ss")
+          );
+          var startTime = items.entry_date_time.split(" ")[1];
+          var endTime = items.exit_date_time
+            ? items.exit_date_time.split(" ")[1]
+            : moment(a).format("YYYY-MM-DD HH:MM:ss");
+          var difftime = diff(startTime, endTime);
+          document.getElementById("Strategieswatch").innerText = difftime;
+          document.getElementById("pnlQ1").innerText = items.pnl;
+          let strike = Math.round(items.entry_bn / 100) * 100;
+          document.getElementById("bankNiftyRound").innerText = strike;
+        });
+
+        const totalValueper = totalprofitCol + totalprofitCol1;
+        document.getElementById("pnl").innerText = totalValueper.toFixed(2);
+
+        const percentage1 = percentage(totalprofitCol, totals).toFixed(2);
+        const percentage2 = percentage(totalprofitCol1, totals1).toFixed(2);
+
+        document.getElementById("pnl2").innerText =
+          percentage1 + percentage2 / 2 + "%";
+
+        document.getElementById("percentage1").innerText = percentage1 + "%";
+        document.getElementById("percentage2").innerText = percentage2 + "%";
+        function diff(start, end) {
+          start = start?.split(":");
+          end = end?.split(":");
+          var startDate = new Date(0, 0, 0, start?.[0], start?.[1], 0);
+          var endDate = new Date(0, 0, 0, end?.[0], end?.[1], 0);
+          console.log(
+            "endDate.getTime() - startDate.getTime()",
+            endDate.getTime() - startDate.getTime()
+          );
+          var diff = endDate.getTime() - startDate.getTime();
+          var hours = Math.floor(diff / 1000 / 60 / 60);
+          console.log("diffdiffdiffdiff", diff);
+          diff -= hours * 1000 * 60 * 60;
+          var minutes = Math.floor(diff / 1000 / 60);
+          var seconds = Math.floor(diff / 1000) - 120;
+          if (hours < 0) hours = hours + 24;
+          return (
+            (hours <= 9 ? "0" : "") +
+            hours +
+            ":" +
+            (minutes <= 9 ? "0" : "") +
+            minutes +
+            ":" +
+            (seconds <= 9 ? "0" : "") +
+            seconds
+          );
+        }
+      });
+    }, 1000);
+  </script>
+</body>
