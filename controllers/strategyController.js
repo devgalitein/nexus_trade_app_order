@@ -486,7 +486,7 @@ exports.positions = async () => {
             orderValue.exit_date_time === null &&
             orderValue.exit_price === null
           ) {
-            let current_time = moment(new Date(), "HH:mm:ss").format("HH:mm");
+            let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
             let code = `NFO:${element.tradingsymbol}`;
             const quote = await getQuotes([code]);
 
@@ -495,7 +495,7 @@ exports.positions = async () => {
 
             let update_query = `UPDATE orders SET exit_price = ${
               element.last_price
-            },exit_date_time="${current_time}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
+            },exit_date_time="${currentTime}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
               orderValue.id
             } AND created_at='${moment().format("YYYY-MM-DD")}' `;
             sql.query(update_query, (err, res) => {
