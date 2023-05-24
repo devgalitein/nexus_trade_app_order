@@ -368,9 +368,6 @@
     setInterval(async () => {
       socket.emit("order-final-data", orderDetail);
       socket.on("order-final-data-getted", function (data) {
-        // if (data) {
-        //   location.reload();
-        // }
         let profitCount = 0;
         let totalprofitCount = 0;
         let profitCount1 = 0;
@@ -380,8 +377,13 @@
         var startTime;
         var qtyS1 = 0;
         var qtyS2 = 0;
+        var exitDateTime = 0;
         data.forEach(function (items) {
           if (items.strategy_id % 2 == 0) {
+            if (items.exit_date_time === null) {
+              exitDateTime += 1;
+            }
+
             profitCount +=
               items.buy_sell === "Buy"
                 ? items.pnl
@@ -439,13 +441,14 @@
             document.getElementById("legs-stattus").innerText = items.exit_price
               ? "Two strategy exit"
               : "Two strategy active";
-            console.log("items.pnlitems.pnlitems.pnl", items.pnl);
             if (items.pnl !== null) {
               document.getElementById(`btn${items.id}`).disabled = true;
               document.getElementById(`sl${items.id}`).disabled = true;
-              // document.getElementById(`stra${items.id}`).disabled = true;
             }
           } else {
+            if (items.exit_date_time === null) {
+              exitDateTime += 1;
+            }
             if (items.pnl !== null) {
               document.getElementById(`btn${items.id}`).disabled = true;
               document.getElementById(`sl${items.id}`).disabled = true;
@@ -534,32 +537,14 @@
             : isNaN(totalprofitCount1.toFixed(2))
             ? "<b>" + "0.00" + "</b>"
             : "<b>" + totalprofitCount1.toFixed(2) + "</b>";
-          console.log(
-            "totalprofitCount1totalprofitCount1",
-            profitCount,
-            totalprofitCount,
-            profitCount1,
-            totalprofitCount1
-          );
+
           let entryBn = items.entry_bn;
 
           let profitBn = items.exit_bn_profit;
           let lossBn = items.exit_bn_loss;
           let pointPlus = entryBn + profitBn;
           let pointMinus = entryBn - lossBn;
-
-          console.log(
-            "pointsreaching",
-            entryBn,
-            profitBn,
-            lossBn,
-            pointPlus,
-            pointMinus,
-            btPrice,
-            pointPlus - btPrice,
-            btPrice - pointMinus,
-            items.exit_date_time
-          );
+          let totalRecords = data.length;
 
           if (
             (pointPlus !== btPrice || pointMinus !== btPrice) &&
@@ -575,6 +560,7 @@
             document.getElementById("point-reached").innerText =
               "Point reached";
           }
+
           document.getElementById("pointReach").innerText =
             "Point required to reach " +
             items.exit_bn_profit +

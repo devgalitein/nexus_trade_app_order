@@ -66,18 +66,18 @@ const placeOrder = async (variety, params) => {
   console.log("varietyvarietyvariety", params);
 
   return new Promise((resolve, reject) => {
-    // kc.placeOrder(variety, params)
-    //   .then(function (response) {
-    //     console.log("responseresponseresponse------fdlsfjj", response);
-    let response = {
-      order_id: "1215452",
-    };
-    resolve(response);
-    // })
-    // .catch(function (err) {
-    //   console.log("errerrerrbsdbjfjsjfgsj g ", err);
-    //   reject(err);
-    // });
+    kc.placeOrder(variety, params)
+      .then(function (response) {
+        console.log("responseresponseresponse------fdlsfjj", response);
+        // let response = {
+        //   order_id: "1215452",
+        // };
+        resolve(response);
+      })
+      .catch(function (err) {
+        console.log("errerrerrbsdbjfjsjfgsj g ", err);
+        reject(err);
+      });
   });
 };
 const getOrderdata = async (id) => {
