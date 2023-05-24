@@ -6,15 +6,6 @@
       <span>/</span>
       <span id="bankNiftyRound"></span>
     </h6>
-    <!-- <div class="back-btn">
-      <button
-        type="button"
-        onclick="location.href = 'http://localhost:7000/'"
-        class="btn btn btn-dark"
-      >
-        BACK
-      </button>
-    </div> -->
   </div>
 
   <div class="bank-status-div bg-info">
@@ -586,9 +577,9 @@
         var min = moment.utc(endTime?.diff(startTime)).format("mm");
         var sec = moment.utc(endTime?.diff(startTime)).format("ss");
         document.getElementById("Strategieswatch").innerText = [
-          hrs !== "Invalid date"? hrs : "00",
-          min !== "Invalid date"? min : "00",
-          sec !== "Invalid date"? sec : "00",
+          hrs !== "Invalid date" ? hrs : "00",
+          min !== "Invalid date" ? min : "00",
+          sec !== "Invalid date" ? sec : "00",
         ].join(":");
         console.log("qtyS1qtyS1qtyS1qtyS1qtyS1", hrs, min, sec);
         document.getElementById("pnlq").innerText = isNaN(
