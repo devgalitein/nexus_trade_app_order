@@ -195,37 +195,19 @@
           <div class="col-6">
             <div class="mb-3">
               <label for="s2l1" class="form-label">Strategy 2 leg 1 </label>
-              <input
-                type="text"
-                id="s2l1"
-                name="s2l1"
-                required
-                class="form-control"
-              />
+              <input type="text" id="s2l1" name="s2l1" class="form-control" />
             </div>
           </div>
           <div class="col-6">
             <div class="mb-3">
               <label for="s1l2" class="form-label">Strategy 1 leg 2</label>
-              <input
-                type="text"
-                id="s1l2"
-                name="s1l2"
-                required
-                class="form-control"
-              />
+              <input type="text" id="s1l2" name="s1l2" class="form-control" />
             </div>
           </div>
           <div class="col-6">
             <div class="mb-3">
               <label for="s2l2" class="form-label">Strategy 2 leg 2 </label>
-              <input
-                type="text"
-                id="s2l2"
-                name="s2l2"
-                required
-                class="form-control"
-              />
+              <input type="text" id="s2l2" name="s2l2" class="form-control" />
             </div>
           </div>
 
@@ -242,6 +224,7 @@
       let settingDetail;
       socket.emit("setting-data", settingDetail);
       socket.on("setting-data-getted", function (data) {
+        console.log("setting_datasetting_datasetting_data", data);
         localStorage.setItem("entry-time", data[0].setting_data[0].entry_time);
         document.getElementById("exit_bn_loss").value =
           data[0].setting_data[0].exit_bn_loss;
@@ -256,64 +239,76 @@
         document.getElementById("s1name").value = data[1].str_value[0].name;
         document.getElementById("s2name").value = data[1].str_value[1].name;
 
-        let firstlegValue = data[0].setting_data[0].strike_price > 0 ? "+" : "";
+        let firstlegValue =
+          data[0].setting_data[0]?.strike_price > 0 ? "+" : "";
         let secondlegValue =
-          data[0].setting_data[1].strike_price > 0 ? "+" : "";
-        let thirdlegValue = data[0].setting_data[2].strike_price > 0 ? "+" : "";
-        let forthlegValue = data[0].setting_data[3].strike_price > 0 ? "+" : "";
+          data[0].setting_data[1]?.strike_price > 0 ? "+" : "";
+        let thirdlegValue =
+          data[0].setting_data[2]?.strike_price > 0 ? "+" : "";
+        let forthlegValue =
+          data[0].setting_data[3]?.strike_price > 0 ? "+" : "";
+        console.log("data[0].setting_data", data[0].setting_data);
 
         document.getElementById("s1l1").value =
-          data[0].setting_data[0].buy_sell +
-          " " +
-          firstlegValue +
-          data[0].setting_data[0].strike_price +
-          " " +
-          data[0].setting_data[0].call_put +
-          " " +
-          "Q" +
-          data[0].setting_data[0].quantity / 25;
+          data[0].setting_data[0].active_leg === 0
+            ? data[0].setting_data[0]?.buy_sell +
+              " " +
+              firstlegValue +
+              data[0].setting_data[0]?.strike_price +
+              " " +
+              data[0].setting_data[0]?.call_put +
+              " " +
+              "Q" +
+              data[0].setting_data[0]?.quantity / 25
+            : "";
         document.getElementById("s1l2").value =
-          data[0].setting_data[1].buy_sell +
-          " " +
-          secondlegValue +
-          data[0].setting_data[1].strike_price +
-          " " +
-          data[0].setting_data[1].call_put +
-          " " +
-          "Q" +
-          data[0].setting_data[1].quantity / 25;
+          data[0].setting_data[1].active_leg === 0
+            ? data[0].setting_data[1]?.buy_sell +
+              " " +
+              secondlegValue +
+              data[0].setting_data[1]?.strike_price +
+              " " +
+              data[0].setting_data[1]?.call_put +
+              " " +
+              "Q" +
+              data[0].setting_data[1]?.quantity / 25
+            : "";
         document.getElementById("s2l1").value =
-          data[0].setting_data[2].buy_sell +
-          " " +
-          thirdlegValue +
-          data[0].setting_data[2].strike_price +
-          " " +
-          data[0].setting_data[2].call_put +
-          " " +
-          "Q" +
-          data[0].setting_data[2].quantity / 25;
+          data[0].setting_data[2].active_leg === 0
+            ? data[0].setting_data[2]?.buy_sell +
+              " " +
+              thirdlegValue +
+              data[0].setting_data[2]?.strike_price +
+              " " +
+              data[0].setting_data[2]?.call_put +
+              " " +
+              "Q" +
+              data[0].setting_data[2]?.quantity / 25
+            : "";
         document.getElementById("s2l2").value =
-          data[0].setting_data[3].buy_sell +
-          " " +
-          forthlegValue +
-          data[0].setting_data[3].strike_price +
-          " " +
-          data[0].setting_data[3].call_put +
-          " " +
-          "Q" +
-          data[0].setting_data[3].quantity / 25;
+          data[0].setting_data[3].active_leg === 0
+            ? data[0].setting_data[3]?.buy_sell +
+              " " +
+              forthlegValue +
+              data[0].setting_data[3]?.strike_price +
+              " " +
+              data[0].setting_data[3]?.call_put +
+              " " +
+              "Q" +
+              data[0].setting_data[3]?.quantity / 25
+            : "";
         document.getElementById("setting_id").value =
           data[0].setting_data[0].id;
         document.getElementById("str1_id").value = data[1].str_value[0].id;
         document.getElementById("str2_id").value = data[1].str_value[1].id;
         document.getElementById("leg1_id").value =
-          data[0].setting_data[0].legs_id;
+          data[0].setting_data[0]?.legs_id;
         document.getElementById("leg2_id").value =
-          data[0].setting_data[1].legs_id;
+          data[0].setting_data[1]?.legs_id;
         document.getElementById("leg3_id").value =
-          data[0].setting_data[2].legs_id;
+          data[0].setting_data[2]?.legs_id;
         document.getElementById("leg4_id").value =
-          data[0].setting_data[3].legs_id;
+          data[0].setting_data[3]?.legs_id;
         document.getElementById("allow_order").value =
           data[0].setting_data[0].allow_order;
         document.getElementById("total_quantity").value =
