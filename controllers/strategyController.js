@@ -474,40 +474,39 @@ exports.positions = async () => {
       "YYYY-MM-DD"
     )}' AND orders.strike_price=${thenum} AND orders.call_put='${call_put}' ORDER BY orders.strategy_id`;
     const bnPrice = await getNiftyPrice();
+    if (element.buy_quantity != element.sell_quantity) {
+      if (element.quantity == 0) {
+        sql.query(querySelect, async function (err, data, fields) {
+          if (err) throw err;
+          let orderData = data;
 
-    if (element.quantity == 0) {
-      sql.query(querySelect, async function (err, data, fields) {
-        if (err) throw err;
-        let orderData = data;
+          for (let index = 0; index < orderData.length; index++) {
+            const orderValue = orderData[index];
+            if (
+              orderValue.exit_date_time === null &&
+              orderValue.exit_price === null
+            ) {
+              let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+              let code = `NFO:${element.tradingsymbol}`;
+              const quote = await getQuotes([code]);
 
-        for (let index = 0; index < orderData.length; index++) {
-          const orderValue = orderData[index];
-          if (
-            orderValue.exit_date_time === null &&
-            orderValue.exit_price === null
-          ) {
-            let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
-            let code = `NFO:${element.tradingsymbol}`;
-            const quote = await getQuotes([code]);
+              const currentRate = quote ? quote[code].last_price : 0;
+              let rateDiff = (currentRate - orderValue.entry_price).toFixed(2);
 
-            const currentRate = quote ? quote[code].last_price : 0;
-            let rateDiff = (currentRate - orderValue.entry_price).toFixed(2);
-
-            let update_query = `UPDATE orders SET exit_price = ${
-              element.last_price
-            },exit_date_time="${currentTime}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
-              orderValue.id
-            } AND created_at='${moment().format("YYYY-MM-DD")}' `;
-            sql.query(update_query, (err, res) => {
-              if (err) {
-                console.log(err);
-              }
-            });
+              let update_query = `UPDATE orders SET exit_price = ${
+                element.last_price
+              },exit_date_time="${currentTime}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
+                orderValue.id
+              } AND created_at='${moment().format("YYYY-MM-DD")}' `;
+              sql.query(update_query, (err, res) => {
+                if (err) {
+                  console.log(err);
+                }
+              });
+            }
           }
-        }
-      });
-    } else {
-      if (element.buy_quantity != element.sell_quantity) {
+        });
+      } else {
         sql.query(querySelect, async function (err, data, fields) {
           if (err) throw err;
           let orderData = data;

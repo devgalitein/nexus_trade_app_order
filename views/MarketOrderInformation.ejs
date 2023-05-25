@@ -110,7 +110,6 @@
     setInterval(async () => {
       var CurrentDate = moment().format("HH:mm");
       let get_time = localStorage.getItem("entry-time");
-      console.log("CurrentDate", CurrentDate, get_time);
       if (CurrentDate === get_time) {
         location.reload();
       } else {
@@ -132,9 +131,10 @@
     socket.on("order-data-getted", function (data) {
       let strDiv = document.createElement("div");
       let strDiv1 = document.createElement("div");
+      var strId1;
+      var strId;
 
       entrytime = data[0]?.entry_date_time;
-      console.log("entrytime", data);
       if (data.length === 0) {
         document.getElementById("main-status-box").style.display = "none";
         document.getElementById("main-status-box1").style.display = "none";
@@ -144,6 +144,7 @@
         document.getElementById("total-part-section").style.display = "block";
         data.map((item) => {
           if (item.strategy_id % 2 == 0) {
+            strId = item.strategy_id;
             document.getElementById("main-status-box").style.display = "block";
 
             let row = document.createElement("tr");
@@ -214,10 +215,13 @@
             td2.setAttribute("align", "center");
             row.appendChild(td2);
             document.getElementById("s1Id").innerText = item.name;
+            rowDisable.style.display = "none";
+            rowDisable.setAttribute("id", `leg1-btn${item.id}`);
+
             rowDisable.innerHTML = `<tr style="display: none" id="leg1-btn" class="leg1-btn d-md-none">
           <td colspan="3">
-            <button type="button"  id="btn${item.id}" onclick=getmarketprice(${item.id},"m")  class="btn btn-danger">M</button>
-            <button type="button" " id="sl${item.id}" onclick=getmarketprice(${item.id},"SL") class="btn btn-danger">SL</button>
+            <button type="button"  id="btnRes${item.id}" onclick=getmarketprice(${item.id},"m")  class="btn btn-danger">M</button>
+            <button type="button" " id="slRes${item.id}" onclick=getmarketprice(${item.id},"SL") class="btn btn-danger">SL</button>
             <button type="button" class="btn btn-outline-warning text-dark">
               Orders
             </button>
@@ -230,6 +234,7 @@
           <button type="button" class="btn btn-danger" id="stra${item.strategy_id}" onclick=getStreagtry(${item.strategy_id},"SL")>SL</button>
           <button type="button" class="btn btn-outline-warning text-dark">Orders</button>`;
           } else {
+            strId1 = item.strategy_id;
             document.getElementById("main-status-box1").style.display = "block";
             let rowDisable1 = document.createElement("tr");
             let row = document.createElement("tr");
@@ -283,7 +288,6 @@
 
             td1.appendChild(arrowdiv);
 
-            console.log("arrowdivarrowdivarrowdiv", arrowdiv);
             td1.appendChild(arrowdiv);
 
             row
@@ -318,6 +322,7 @@
             rowDisable1.style.display = "none";
             target1.appendChild(row).setAttribute("id", "leg-tr");
             target1.appendChild(rowDisable1);
+
             strDiv1.innerHTML = `<button type="button" class="btn btn-danger" id="stra${item.strategy_id}" onclick=getStreagtry(${item.strategy_id},"m")>M</button>
               <button type="button" class="btn btn-danger" id="stra${item.strategy_id}" onclick=getStreagtry(${item.strategy_id},"SL")>SL</button>
                <button type="button" class="btn btn-outline-warning text-dark">Orders</button>`;
@@ -332,22 +337,23 @@
         var totalprofit = document.createElement("td");
         var divTotalProfit = document.createElement("div");
         var arrowTotalProfit = document.createElement("div");
-
+        var rowDatafunc = document.createElement("tr");
+        rowDatafunc.setAttribute("id", "str-btn");
+        rowDatafunc.style.display = "none";
+        rowDatafunc.innerHTML = `
+        <tr style='display: none' id='leg1-btn' class="leg1-btn d-md-none">
+          <td colspan="3">
+            <button type="button" id="btnRes${strId}" onclick=getmarketprice(${strId},"m") class="btn btn-danger">M</button>
+            <button type="button"  id="slRes${strId}" onclick=getmarketprice(${strId},"SL") class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+        `;
         let strOrder = document.createElement("td");
-        console.log("datadatadatadata", data.length);
-
-        var rowData1 = document.createElement("tr");
-        var mainTd1 = document.createElement("td");
-        var profit1 = document.createElement("td");
-        var totalprofit1 = document.createElement("td");
-        var divTotalProfit1 = document.createElement("div");
-        var arrowTotalProfit1 = document.createElement("div");
-        let strOrder1 = document.createElement("td");
-
-        // profit.innerHTML = "<b>" + profitCount.toFixed(2) + "</b>";
-        // divTotalProfit.innerHTML = "<b>" + totalprofitCount.toFixed(2) + "</b>";
         arrowTotalProfit.innerHTML =
-          "<i class='fa fa-chevron-down' onclick='myFunction()'   aria-hidden='true'></i>";
+          "<i class='fa fa-chevron-down' onclick=myFunction('str-btn')   aria-hidden='true'></i>";
         totalprofit.appendChild(divTotalProfit);
         totalprofit
           .appendChild(arrowTotalProfit)
@@ -357,16 +363,38 @@
         mainTd.setAttribute("id", "positionPNL");
         rowData.appendChild(mainTd);
         profit.setAttribute("id", "profit");
-        rowData.appendChild(profit);
-
-        rowData.appendChild(totalprofit);
         strDiv.setAttribute("class", "d-sm-none d-none d-md-block");
-        strDiv1.setAttribute("class", "d-sm-none d-none d-md-block");
         strOrder.appendChild(strDiv);
         strOrder.setAttribute("align", "center");
-
+        rowData.appendChild(profit);
+        rowData.appendChild(totalprofit);
         rowData.appendChild(strOrder);
         target.appendChild(rowData);
+        target.appendChild(rowDatafunc);
+        if (strId != undefined) {
+        }
+
+        var rowData1 = document.createElement("tr");
+        var mainTd1 = document.createElement("td");
+        var profit1 = document.createElement("td");
+        var totalprofit1 = document.createElement("td");
+        var divTotalProfit1 = document.createElement("div");
+        var arrowTotalProfit1 = document.createElement("div");
+        let strOrder1 = document.createElement("td");
+        var rowDatafunc1 = document.createElement("tr");
+        rowDatafunc1.setAttribute("id", "str1-btn");
+        rowDatafunc1.style.display = "none";
+        rowDatafunc1.innerHTML = `
+        <tr style='display: none' id='leg1-btn' class="leg1-btn d-md-none">
+          <td colspan="3">
+            <button type="button" id="btnRes${strId1}" onclick=getmarketprice(${strId1},"m") class="btn btn-danger">M</button>
+            <button type="button"  id="slRes${strId1}" onclick=getmarketprice(${strId1},"SL") class="btn btn-danger">SL</button>
+            <button type="button" class="btn btn-outline-warning text-dark">
+              Orders
+            </button>
+          </td>
+        </tr>
+        `;
 
         profit1.setAttribute("id", "profit1");
         divTotalProfit1.setAttribute("id", "totalprofit1");
@@ -374,7 +402,7 @@
         // profit1.innerHTML = "<b>" + profitCount1.toFixed(2) + "</b>";
         // divTotalProfit1.innerHTML = "<b>" + totalprofitCount1.toFixed(2) + "</b>";
         arrowTotalProfit1.innerHTML =
-          "<i class='fa fa-chevron-down' onclick='myFunction()' aria-hidden='true'></i>";
+          "<i class='fa fa-chevron-down' onclick=myFunction('str1-btn') aria-hidden='true'></i>";
         totalprofit1.appendChild(divTotalProfit1);
         totalprofit1
           .appendChild(arrowTotalProfit1)
@@ -385,11 +413,14 @@
         rowData1.appendChild(totalprofit1);
 
         strOrder1.appendChild(strDiv1);
+        strDiv1.setAttribute("class", "d-sm-none d-none d-md-block");
+
         strOrder1.setAttribute("align", "center");
         rowData1.appendChild(strOrder1);
-        target1.appendChild(rowData1);
-
-        console.log("rowDisable1rowDisable1", target1);
+        if (strId1 != undefined) {
+          target1.appendChild(rowData1);
+          target1.appendChild(rowDatafunc1);
+        }
       }
     });
     setInterval(async () => {
@@ -404,13 +435,9 @@
         var startTime;
         var qtyS1 = 0;
         var qtyS2 = 0;
-        var exitDateTime = 0;
+
         data.forEach(function (items) {
           if (items.strategy_id % 2 == 0) {
-            if (items.exit_date_time === null) {
-              exitDateTime += 1;
-            }
-
             profitCount +=
               items.buy_sell === "Buy"
                 ? items.pnl
@@ -437,34 +464,40 @@
               document.getElementById(`profitTd${items.id}`).innerText =
                 items.orderError.substring(0, 47).concat("...");
             } else {
-              document.getElementById(`profitTd${items.id}`).innerText = isNaN(
-                (items.exit_date_time !== null
-                  ? items.exit_price - items.entry_price
-                  : items.current_value - items.entry_price
-                ).toFixed(2)
-              )
-                ? "0.00"
-                : (items.exit_date_time !== null
-                    ? items.exit_price - items.entry_price
-                    : items.current_value - items.entry_price
-                  ).toFixed(2);
+              document.getElementById(`profitTd${items.id}`).innerText = items
+                ? isNaN(
+                    (items.exit_date_time !== null
+                      ? items.exit_price - items.entry_price
+                      : items.current_value - items.entry_price
+                    ).toFixed(2)
+                  )
+                  ? "0.00"
+                  : (items.exit_date_time !== null
+                      ? items.exit_price - items.entry_price
+                      : items.current_value - items.entry_price
+                    ).toFixed(2)
+                : "0.00";
             }
 
             document.getElementById(`totalprofitTd${items.id}`).innerText =
-              items.orderError
-                ? "0.00"
-                : isNaN(
-                    (items.exit_date_time !== null
+              items
+                ? items.orderError
+                  ? "0.00"
+                  : isNaN(
+                      (items.exit_date_time !== null
+                        ? (items.exit_price - items.entry_price) *
+                          items.quantity
+                        : (items.current_value - items.entry_price) *
+                          items.quantity
+                      ).toFixed(2)
+                    )
+                  ? "0.00"
+                  : (items.exit_date_time !== null
                       ? (items.exit_price - items.entry_price) * items.quantity
                       : (items.current_value - items.entry_price) *
                         items.quantity
                     ).toFixed(2)
-                  )
-                ? "0.00"
-                : (items.exit_date_time !== null
-                    ? (items.exit_price - items.entry_price) * items.quantity
-                    : (items.current_value - items.entry_price) * items.quantity
-                  ).toFixed(2);
+                : "0.00";
             document.getElementById("legs-stattus").innerText = items.exit_price
               ? "Two strategy exit"
               : "Two strategy active";
@@ -473,11 +506,7 @@
               document.getElementById(`sl${items.id}`).disabled = true;
             }
           } else {
-            if (items.exit_date_time === null) {
-              exitDateTime += 1;
-            }
             if (items.pnl !== null) {
-              console.log("hjell", document.getElementById(`btn${items.id}`));
               document.getElementById(`btn${items.id}`).disabled = true;
               document.getElementById(`btnRes${items.id}`).disabled = true;
               document.getElementById(`sl${items.id}`).disabled = true;
@@ -541,10 +570,6 @@
             document.getElementById("legs-stattus").innerText = items.exit_price
               ? "One strategy exit"
               : "One strategy active";
-            console.log(
-              "profitCountprofitCountprofitCountprofitCount1",
-              profitCount1
-            );
           }
 
           document.getElementById("profit").innerText = items.orderError
@@ -621,10 +646,17 @@
           min !== "Invalid date" ? min : "00",
           sec !== "Invalid date" ? sec : "00",
         ].join(":");
-        console.log("qtyS1qtyS1qtyS1qtyS1qtyS1", hrs, min, sec);
+
         document.getElementById("pnlq").innerText = isNaN(
           ((totalprofitCount + totalprofitCount1) * 25).toFixed(2)
         )
+          ? "0.00"
+          : isNaN(
+              (
+                (totalprofitCount / qtyS1) * 25 +
+                (totalprofitCount1 / qtyS2) * 25
+              ).toFixed(2)
+            )
           ? "0.00"
           : (
               (totalprofitCount / qtyS1) * 25 +
