@@ -581,8 +581,11 @@ exports.strategiesWatcher = async () => {
 
       for (let index = 0; index < legs.length; index++) {
         let leg = legs[index];
-
+        let strike_price = strike + leg.strike_price;
         let totalQuantity = leg.quantity / 25 + leg.total_quantity;
+        let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
+        let quote = await getQuotes([code]);
+        let quoteval = quote ? quote[code] : null;
 
         let current_time = moment(new Date(), "HH:mm:ss").format("HH:mm");
         if (
@@ -602,10 +605,6 @@ exports.strategiesWatcher = async () => {
             chunkQuantities.push(chunkQuantity);
           }
           for (let j = 0; j < chunkQuantities.length; j++) {
-            let strike_price = strike + leg.strike_price;
-            let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
-            let quote = await getQuotes([code]);
-            let quoteval = quote ? quote[code] : null;
             let order = [];
             console.log("quotevalquotevalquoteval", quoteval, code);
             if (quoteval) {
@@ -649,6 +648,7 @@ exports.addOrder = async (req, res) => {
   try {
     let { leg, remainqty, order_type } = req;
     if (remainqty) {
+      let orderArr = [];
       for (let index = 0; index < leg.length; index++) {
         const element = leg[index];
         let query = "INSERT INTO orders SET ?";
@@ -679,13 +679,15 @@ exports.addOrder = async (req, res) => {
               element.order_error = orderData?.[2].status
                 ? orderData?.[2]?.status_message
                 : "";
-              console.log("resultresultresult---->", element);
+              // console.log("resultresultresult---->", element);
+              orderArr.push([...orderArr, element]);
 
               sql.query(query, [element]);
             }
           }
         );
       }
+      console.log("orderArrorderArr", orderArr);
     }
   } catch (err) {
     console.log("err");
