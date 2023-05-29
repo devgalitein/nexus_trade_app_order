@@ -58,6 +58,7 @@
                 id="entry_time"
                 name="entry_time"
                 placeholder="Entry time"
+                onchange="exitTime()"
                 required
               />
             </div>
@@ -136,7 +137,7 @@
           <div class="col-sm-6">
             <div class="mb-3">
               <label for="allow_order" class="form-label"
-                >Allows per order</label
+                >Allows legs per order</label
               >
               <input
                 type="text"
@@ -218,10 +219,14 @@
     </form>
     <script>
       let settingDetail;
+      function exitTime() {
+        var x = document.getElementById("entry_time").value;
+        localStorage.setItem("entry-time", x);
+      }
+
       socket.emit("setting-data", settingDetail);
       socket.on("setting-data-getted", function (data) {
         console.log("setting_datasetting_datasetting_data", data);
-        localStorage.setItem("entry-time", data[0].setting_data[0].entry_time);
         document.getElementById("exit_bn_loss").value =
           data[0].setting_data[0].exit_bn_loss;
         document.getElementById("exit_bn_profit").value =

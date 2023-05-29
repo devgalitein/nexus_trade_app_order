@@ -110,8 +110,9 @@
     setInterval(async () => {
       var CurrentDate = moment().format("HH:mm");
       let get_time = localStorage.getItem("entry-time");
+      console.log("hello", CurrentDate, get_time);
       if (CurrentDate === get_time) {
-        location.reload();
+        window.location.reload();
       } else {
         return;
       }

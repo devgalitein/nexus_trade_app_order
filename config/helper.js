@@ -7,7 +7,7 @@ const watchLists_backup = db.watchLists_backup;
 const getOrdersLegs = async () => {
   return new Promise((resolve, reject) => {
     sql.query(
-      `SELECT DISTINCT legs.*,setting.entry_time,setting.order_type,setting.exit_time,setting.auto_repeat,setting.allow_order FROM legs LEFT JOIN orders on legs.id=orders.leg_id LEFT JOIN setting ON legs.setting_id=setting.id WHERE legs.active_leg=0 AND orders.created_at != '${moment().format(
+      `SELECT DISTINCT legs.*,setting.total_quantity,setting.entry_time,setting.order_type,setting.exit_time,setting.auto_repeat,setting.allow_order FROM legs LEFT JOIN orders on legs.id=orders.leg_id LEFT JOIN setting ON legs.setting_id=setting.id WHERE legs.active_leg=0 AND orders.created_at != '${moment().format(
         "YYYY-MM-DD"
       )}' OR orders.id IS NULL OR (orders.exit_date_time IS NOT NULL AND setting.auto_repeat=1)
       `,

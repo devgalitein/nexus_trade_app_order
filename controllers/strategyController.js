@@ -87,9 +87,7 @@ exports.addStrategy = async (req, res) => {
                           resultStr.insertId
                         }, ${result.insertId}, '${leg1[0]}', '${leg1[1]}', '${
                           leg1[2]
-                        }', '${
-                          leg1[3].match(r) * 25 * total_quantity
-                        }','${created_at}')`,
+                        }', '${leg1[3].match(r) * 25}','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
                             isError = false;
@@ -108,9 +106,7 @@ exports.addStrategy = async (req, res) => {
                           resultStr.insertId
                         }, ${result.insertId}, '${leg2[0]}', '${leg2[1]}', '${
                           leg2[2]
-                        }', '${
-                          leg2[3].match(r) * 25 * total_quantity
-                        }','${created_at}')`,
+                        }', '${leg2[3].match(r) * 25}','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
                             isError = false;
@@ -144,9 +140,7 @@ exports.addStrategy = async (req, res) => {
                           resultStr.insertId
                         }, ${result.insertId}, '${leg3[0]}', '${leg3[1]}', '${
                           leg3[2]
-                        }', '${
-                          leg3[3].match(r) * 25 * total_quantity
-                        }','${created_at}')`,
+                        }', '${leg3[3].match(r) * 25}','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
                             isError = false;
@@ -165,9 +159,7 @@ exports.addStrategy = async (req, res) => {
                           resultStr.insertId
                         }, ${result.insertId}, '${leg4[0]}', '${leg4[1]}', '${
                           leg4[2]
-                        }', '${
-                          leg4[3].match(r) * 25 * total_quantity
-                        }','${created_at}')`,
+                        }', '${leg4[3].match(r) * 25}','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
                             isError = false;
@@ -222,7 +214,7 @@ exports.addStrategy = async (req, res) => {
                           leg1[2]
                         }"
                         ,quantity=${
-                          leg1[3].match(r) * 25 * total_quantity
+                          leg1[3].match(r) * 25
                         } WHERE id = ${leg1_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -261,7 +253,7 @@ exports.addStrategy = async (req, res) => {
                         }",active_leg=${0},strike_price=${leg2[1]},call_put="${
                           leg2[2]
                         }",quantity=${
-                          leg2[3].match(r) * 25 * total_quantity
+                          leg2[3].match(r) * 25
                         } WHERE id = ${leg2_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -315,7 +307,7 @@ exports.addStrategy = async (req, res) => {
                         }",active_leg=${0},strike_price=${leg3[1]},call_put="${
                           leg3[2]
                         }",quantity=${
-                          leg3[3].match(r) * 25 * total_quantity
+                          leg3[3].match(r) * 25
                         } WHERE id = ${leg3_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -354,7 +346,7 @@ exports.addStrategy = async (req, res) => {
                         }",active_leg=${0},strike_price=${leg4[1]},call_put="${
                           leg4[2]
                         }",quantity=${
-                          leg4[3].match(r) * 25 * total_quantity
+                          leg4[3].match(r) * 25
                         } WHERE id = ${leg4_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -462,75 +454,75 @@ exports.positions = async () => {
     .catch((error) => {
       console.log("errorerrorerror", error);
     });
-  console.log("positionDatapositionDatapositionData", positionData);
-  for (let index = 0; index < positionData?.length; index++) {
-    const element = positionData[index];
+  // console.log("positionDatapositionDatapositionData", positionData);
+  // for (let index = 0; index < positionData?.length; index++) {
+  //   const element = positionData[index];
 
-    let valueName = element.tradingsymbol;
-    valueName = valueName.replace(`BANKNIFTY${getThurday}`, "");
-    var thenum = valueName.match(/\d+/)[0];
-    var call_put = valueName.replace(thenum, "");
-    var querySelect = `SELECT orders.*,strategy.name,setting.exit_bn_profit,setting.exit_bn_loss,setting.exit_time FROM orders LEFT JOIN legs ON orders.leg_id=legs.id LEFT JOIN setting ON orders.setting_id=setting.id Left JOIN strategy ON orders.strategy_id=strategy.id where orders.created_at ='${moment().format(
-      "YYYY-MM-DD"
-    )}' AND orders.strike_price=${thenum} AND orders.call_put='${call_put}' ORDER BY orders.strategy_id`;
-    const bnPrice = await getNiftyPrice();
-    if (element.buy_quantity != element.sell_quantity) {
-      if (element.quantity == 0) {
-        sql.query(querySelect, async function (err, data, fields) {
-          if (err) throw err;
-          let orderData = data;
+  //   let valueName = element.tradingsymbol;
+  //   valueName = valueName.replace(`BANKNIFTY${getThurday}`, "");
+  //   var thenum = valueName.match(/\d+/)[0];
+  //   var call_put = valueName.replace(thenum, "");
+  //   var querySelect = `SELECT orders.*,strategy.name,setting.exit_bn_profit,setting.exit_bn_loss,setting.exit_time FROM orders LEFT JOIN legs ON orders.leg_id=legs.id LEFT JOIN setting ON orders.setting_id=setting.id Left JOIN strategy ON orders.strategy_id=strategy.id where orders.created_at ='${moment().format(
+  //     "YYYY-MM-DD"
+  //   )}' AND orders.strike_price=${thenum} AND orders.call_put='${call_put}' ORDER BY orders.strategy_id`;
+  //   const bnPrice = await getNiftyPrice();
+  //   if (element.buy_quantity != element.sell_quantity) {
+  //     if (element.quantity == 0) {
+  //       sql.query(querySelect, async function (err, data, fields) {
+  //         if (err) throw err;
+  //         let orderData = data;
 
-          for (let index = 0; index < orderData.length; index++) {
-            const orderValue = orderData[index];
-            if (
-              orderValue.exit_date_time === null &&
-              orderValue.exit_price === null
-            ) {
-              let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
-              let code = `NFO:${element.tradingsymbol}`;
-              const quote = await getQuotes([code]);
+  //         for (let index = 0; index < orderData.length; index++) {
+  //           const orderValue = orderData[index];
+  //           if (
+  //             orderValue.exit_date_time === null &&
+  //             orderValue.exit_price === null
+  //           ) {
+  //             let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+  //             let code = `NFO:${element.tradingsymbol}`;
+  //             const quote = await getQuotes([code]);
 
-              const currentRate = quote ? quote[code].last_price : 0;
-              let rateDiff = (currentRate - orderValue.entry_price).toFixed(2);
+  //             const currentRate = quote ? quote[code].last_price : 0;
+  //             let rateDiff = (currentRate - orderValue.entry_price).toFixed(2);
 
-              let update_query = `UPDATE orders SET exit_price = ${
-                element.last_price
-              },exit_date_time="${currentTime}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
-                orderValue.id
-              } AND created_at='${moment().format("YYYY-MM-DD")}' `;
-              sql.query(update_query, (err, res) => {
-                if (err) {
-                  console.log(err);
-                }
-              });
-            }
-          }
-        });
-      } else {
-        sql.query(querySelect, async function (err, data, fields) {
-          if (err) throw err;
-          let orderData = data;
-          if (orderData.length === 0) {
-            let newData = {
-              buy_sell:
-                element.buy_quantity > element.sell_quantity ? "Buy" : "Sell",
-              strike_price: thenum,
-              call_put: call_put,
-              quantity: element.quantity,
-              entry_price: element.last_price,
-              entry_bn: bnPrice,
-              entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
-              created_at: moment().format("YYYY-MM-DD"),
-            };
-            console.log("newDatanewData", newData);
+  //             let update_query = `UPDATE orders SET exit_price = ${
+  //               element.last_price
+  //             },exit_date_time="${currentTime}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
+  //               orderValue.id
+  //             } AND created_at='${moment().format("YYYY-MM-DD")}' `;
+  //             sql.query(update_query, (err, res) => {
+  //               if (err) {
+  //                 console.log(err);
+  //               }
+  //             });
+  //           }
+  //         }
+  //       });
+  //     } else {
+  //       sql.query(querySelect, async function (err, data, fields) {
+  //         if (err) throw err;
+  //         let orderData = data;
+  //         if (orderData.length === 0) {
+  //           let newData = {
+  //             buy_sell:
+  //               element.buy_quantity > element.sell_quantity ? "Buy" : "Sell",
+  //             strike_price: thenum,
+  //             call_put: call_put,
+  //             quantity: element.quantity,
+  //             entry_price: element.last_price,
+  //             entry_bn: bnPrice,
+  //             entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
+  //             created_at: moment().format("YYYY-MM-DD"),
+  //           };
+  //           console.log("newDatanewData", newData);
 
-            let query = "INSERT INTO orders SET ?";
-            sql.query(query, [newData]);
-          }
-        });
-      }
-    }
-  }
+  //           let query = "INSERT INTO orders SET ?";
+  //           sql.query(query, [newData]);
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
 };
 
 exports.getOrder = async (callback) => {
@@ -590,7 +582,8 @@ exports.strategiesWatcher = async () => {
       for (let index = 0; index < legs.length; index++) {
         let leg = legs[index];
 
-        let totalQuantity = leg.quantity / 25;
+        let totalQuantity = leg.quantity / 25 + leg.total_quantity;
+
         let current_time = moment(new Date(), "HH:mm:ss").format("HH:mm");
         if (
           current_time >= moment(leg.entry_time, "HH:mm:ss").format("HH:mm") &&
@@ -599,10 +592,8 @@ exports.strategiesWatcher = async () => {
         ) {
           const remainingQuantity = totalQuantity;
           const chunkSize = leg.allow_order;
-
           const numberOfChunks = Math.ceil(remainingQuantity / chunkSize);
           const chunkQuantities = [];
-
           for (let i = 0; i < numberOfChunks; i++) {
             const chunkQuantity = Math.min(
               chunkSize,
@@ -610,68 +601,38 @@ exports.strategiesWatcher = async () => {
             );
             chunkQuantities.push(chunkQuantity);
           }
-
           for (let j = 0; j < chunkQuantities.length; j++) {
-            sql.query(
-              `SELECT * FROM orders where leg_id=${
-                leg.id
-              } AND created_at ="${moment().format(
-                "YYYY-MM-DD"
-              )}" AND exit_date_time IS NULL AND quantity=${
-                chunkQuantities[j] * 25
-              }`,
-              async (err, result) => {
-                console.log(
-                  "chunkQuantitieschunkQuantities",
-                  chunkQuantities[j],
-                  leg.quantity
-                );
-                let order = [];
-                if (result && result.length <= 0) {
-                  let strike_price = strike + leg.strike_price;
-                  let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
-                  let quote = await getQuotes([code]);
-                  let quoteval = quote ? quote[code] : null;
-                  if (quoteval) {
-                    let currentRate = quoteval.last_price;
-                    let params = {
-                      exchange: "NFO",
-                      tradingsymbol: `BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`,
-                      transaction_type: leg.buy_sell == "Buy" ? "BUY" : "SELL",
-                      quantity: chunkQuantities[j] * 25,
-                      product: "MIS",
-                      order_type: leg.order_type,
-                    };
-                    const place_order = await placeOrder("regular", params);
-                    const orderData = await getOrderdata(place_order.order_id);
-                    let newData = {
-                      strategy_id: leg.strategy_id,
-                      setting_id: leg.setting_id,
-                      leg_id: leg.id,
-                      buy_sell: leg.buy_sell,
-                      strike_price: strike_price,
-                      call_put: leg.call_put,
-                      quantity: chunkQuantities[j] * 25,
-                      entry_price: currentRate,
-                      entry_bn: bnPrice,
-                      entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
-                      created_at: moment().format("YYYY-MM-DD"),
-                      order_live_id: place_order.order_id,
-                      order_error: orderData?.[2].status
-                        ? orderData?.[2]?.status_message
-                        : "",
-                    };
-                    order.push(newData);
-                  }
-                }
-                if (order.length > 0) {
-                  await this.addOrder({
-                    leg: order,
-                    remainqty: true,
-                  });
-                }
-              }
-            );
+            let strike_price = strike + leg.strike_price;
+            let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
+            let quote = await getQuotes([code]);
+            let quoteval = quote ? quote[code] : null;
+            let order = [];
+            console.log("quotevalquotevalquoteval", quoteval, code);
+            if (quoteval) {
+              let currentRate = quoteval?.last_price;
+              let newData = {
+                strategy_id: leg.strategy_id,
+                setting_id: leg.setting_id,
+                leg_id: leg.id,
+                buy_sell: leg.buy_sell,
+                strike_price: strike_price,
+                call_put: leg.call_put,
+                quantity: chunkQuantities[j] * 25,
+                entry_price: currentRate,
+                entry_bn: bnPrice,
+                entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
+                created_at: moment().format("YYYY-MM-DD"),
+                order_created: j + 1,
+              };
+              order.push(newData);
+            }
+            if (order.length > 0) {
+              await this.addOrder({
+                leg: order,
+                remainqty: true,
+                order_type: leg.order_type,
+              });
+            }
           }
         }
       }
@@ -686,21 +647,40 @@ exports.strategiesWatcher = async () => {
 
 exports.addOrder = async (req, res) => {
   try {
-    let { leg, remainqty } = req;
+    let { leg, remainqty, order_type } = req;
     if (remainqty) {
       for (let index = 0; index < leg.length; index++) {
         const element = leg[index];
-        console.log("elementelementelementelement", element);
         let query = "INSERT INTO orders SET ?";
         sql.query(
           `SELECT * FROM orders where leg_id=${
             element.leg_id
           } AND created_at ="${moment().format(
             "YYYY-MM-DD"
-          )}" AND exit_date_time IS NULL AND quantity=${element.quantity}`,
+          )}" AND exit_date_time IS NULL AND quantity=${
+            element.quantity
+          } AND order_created=${element.order_created}`,
           async (err, result) => {
-            console.log("errerrerrerrerrerr", result);
             if (result && result.length <= 0) {
+              let params = {
+                exchange: "NFO",
+                tradingsymbol: `BANKNIFTY${getThurday}${
+                  element.strike_price
+                }${element.call_put.toUpperCase()}`,
+                transaction_type: element.buy_sell == "Buy" ? "BUY" : "SELL",
+                quantity: element.quantity,
+                product: "MIS",
+                order_type: order_type,
+              };
+
+              const place_order = await placeOrder("regular", params);
+              const orderData = await getOrderdata(place_order.order_id);
+              element.order_live_id = place_order?.order_id;
+              element.order_error = orderData?.[2].status
+                ? orderData?.[2]?.status_message
+                : "";
+              console.log("resultresultresult---->", element);
+
               sql.query(query, [element]);
             }
           }
@@ -718,10 +698,10 @@ exports.orderWatcher = async () => {
       "YYYY-MM-DD"
     )}'`,
     async (err, res) => {
-      // console.log("errerrerrerrerr--->?", err, res);
       if (!err) {
         for (i in res) {
           let order = res[i];
+          console.log("orderorderres", order);
           const code = `NFO:BANKNIFTY${getThurday}${
             order.strike_price
           }${order.call_put.toUpperCase()}`;
@@ -743,43 +723,52 @@ exports.orderWatcher = async () => {
             (order.order_type === "SL" &&
               parseFloat(exit_sl_minus_price.toFixed(2)) === currentRate)
           ) {
-            // console.log("hello watcher");
-            let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
-            let update_query = `UPDATE orders SET exit_price = ${currentRate},exit_date_time="${currentTime}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
-              order.id
-            } AND created_at='${moment().format("YYYY-MM-DD")}' `;
-            let params = {
-              exchange: "NFO",
-              tradingsymbol: `BANKNIFTY${getThurday}${
-                order.strike_price
-              }${order.call_put.toUpperCase()}`,
-              transaction_type: order.buy_sell == "Buy" ? "SELL" : "BUY",
-              quantity: order.quantity,
-              product: "MIS",
-              order_type: order.order_type,
-            };
-
-            const place_order = await placeOrder("regular", params);
-            console.log("place_orderplace_orderplace_order", place_order);
-            if (place_order) {
-              sql.query(update_query, (err, res) => {
-                if (err) {
-                  console.log(err);
-                }
-              });
-
-              params.pnl = rateDiff;
-              params.exit_price = currentRate;
-              params.exit_date_time = currentTime;
-              params.time = moment().format("YYYY-MM-DD HH:mm:ss");
-              params.exit_bn = bnPrice;
-              logger.log("info", params);
-            }
+            this.orderExitFunction({
+              order: order,
+              currentRate: currentRate,
+              rateDiff: rateDiff,
+              bnPrice: bnPrice,
+            });
           }
         }
       }
     }
   );
+};
+exports.orderExitFunction = async (req, result) => {
+  let { order, currentRate, rateDiff, bnPrice } = req;
+  let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+  let update_query = `UPDATE orders SET exit_price = ${currentRate},exit_date_time="${currentTime}", pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
+    order.id
+  } AND created_at='${moment().format("YYYY-MM-DD")}' `;
+  let params = {
+    exchange: "NFO",
+    tradingsymbol: `BANKNIFTY${getThurday}${
+      order.strike_price
+    }${order.call_put.toUpperCase()}`,
+    transaction_type: order.buy_sell == "Buy" ? "SELL" : "BUY",
+    quantity: order.quantity,
+    product: "MIS",
+    order_type: order.order_type,
+  };
+
+  // if (place_order) {
+  sql.query(update_query, async (err, res) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("place_orderplace_orderplace_order", params);
+
+      await placeOrder("regular", params);
+    }
+  });
+  params.pnl = rateDiff;
+  params.exit_price = currentRate;
+  params.exit_date_time = currentTime;
+  params.time = moment().format("YYYY-MM-DD HH:mm:ss");
+  params.exit_bn = bnPrice;
+  logger.log("info", params);
+  // }
 };
 exports.getOrdermarketprice = async (req, result) => {
   console.log("reqreqreqreqreqreq----------->", req);
@@ -900,7 +889,6 @@ exports.OrderStrategy = async (req, result) => {
   sql.query(
     `SELECT orders.*,setting.exit_bn_profit,setting.sl_value,setting.order_type,setting.exit_bn_loss,setting.exit_time FROM orders LEFT JOIN legs ON orders.leg_id=legs.id LEFT JOIN setting ON orders.setting_id=setting.id WHERE orders.exit_price IS NULL AND orders.strategy_id=${req.params.id}`,
     async (err, res) => {
-      console.log("errerrerrerrerr--->?", err, res);
       if (!err) {
         for (i in res) {
           let order = res[i];
