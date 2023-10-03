@@ -165,13 +165,13 @@
                   item.call_put +
                   " " +
                   "Q" +
-                  item.quantity / 25
+                  item.quantity / 15
                 : "Sell" +
                   item.strikeCurrent +
                   " " +
                   item.call_put +
                   "Q" +
-                  item.quantity / 25 +
+                  item.quantity / 15 +
                   " ";
             let qtySher = item.strike_price + item.call_put;
             spanQut.innerHTML = " " + "(" + qtySher + ")";
@@ -256,13 +256,13 @@
                   item.call_put +
                   " " +
                   "Q" +
-                  item.quantity / 25
+                  item.quantity / 15
                 : "Sell" +
                   item.strikeCurrent +
                   " " +
                   item.call_put +
                   "Q" +
-                  item.quantity / 25 +
+                  item.quantity / 15 +
                   " ";
             let qtySher = item.strike_price + item.call_put;
             spanQut.innerHTML = " " + "(" + qtySher + ")";
@@ -649,19 +649,19 @@
         ].join(":");
 
         document.getElementById("pnlq").innerText = isNaN(
-          ((totalprofitCount + totalprofitCount1) * 25).toFixed(2)
+          ((totalprofitCount + totalprofitCount1) * 15).toFixed(2)
         )
           ? "0.00"
           : isNaN(
               (
-                (totalprofitCount / qtyS1) * 25 +
-                (totalprofitCount1 / qtyS2) * 25
+                (totalprofitCount / qtyS1) * 15 +
+                (totalprofitCount1 / qtyS2) * 15
               ).toFixed(2)
             )
           ? "0.00"
           : (
-              (totalprofitCount / qtyS1) * 25 +
-              (totalprofitCount1 / qtyS2) * 25
+              (totalprofitCount / qtyS1) * 15 +
+              (totalprofitCount1 / qtyS2) * 15
             ).toFixed(2);
 
         document.getElementById("pnl-over").innerText = isNaN(

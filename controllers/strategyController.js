@@ -87,7 +87,7 @@ exports.addStrategy = async (req, res) => {
 													resultStr.insertId
 												}, ${result.insertId}, '${leg1[0]}', '${leg1[1]}', '${
 													leg1[2]
-												}', '${leg1[3].match(r) * 25}','${created_at}')`,
+												}', '${leg1[3].match(r) * 15}','${created_at}')`,
 												async (err, result) => {
 													if (!err) {
 														isError = false;
@@ -106,7 +106,7 @@ exports.addStrategy = async (req, res) => {
 													resultStr.insertId
 												}, ${result.insertId}, '${leg2[0]}', '${leg2[1]}', '${
 													leg2[2]
-												}', '${leg2[3].match(r) * 25}','${created_at}')`,
+												}', '${leg2[3].match(r) * 15}','${created_at}')`,
 												async (err, result) => {
 													if (!err) {
 														isError = false;
@@ -140,7 +140,7 @@ exports.addStrategy = async (req, res) => {
 													resultStr.insertId
 												}, ${result.insertId}, '${leg3[0]}', '${leg3[1]}', '${
 													leg3[2]
-												}', '${leg3[3].match(r) * 25}','${created_at}')`,
+												}', '${leg3[3].match(r) * 15}','${created_at}')`,
 												async (err, result) => {
 													if (!err) {
 														isError = false;
@@ -159,7 +159,7 @@ exports.addStrategy = async (req, res) => {
 													resultStr.insertId
 												}, ${result.insertId}, '${leg4[0]}', '${leg4[1]}', '${
 													leg4[2]
-												}', '${leg4[3].match(r) * 25}','${created_at}')`,
+												}', '${leg4[3].match(r) * 15}','${created_at}')`,
 												async (err, result) => {
 													if (!err) {
 														isError = false;
@@ -214,7 +214,7 @@ exports.addStrategy = async (req, res) => {
 													leg1[2]
 												}"
                         ,quantity=${
-													leg1[3].match(r) * 25
+													leg1[3].match(r) * 15
 												} WHERE id = ${leg1_id}`,
 												async (err, result) => {
 													if (!err) {
@@ -253,7 +253,7 @@ exports.addStrategy = async (req, res) => {
 												}",active_leg=${0},strike_price=${leg2[1]},call_put="${
 													leg2[2]
 												}",quantity=${
-													leg2[3].match(r) * 25
+													leg2[3].match(r) * 15
 												} WHERE id = ${leg2_id}`,
 												async (err, result) => {
 													if (!err) {
@@ -307,7 +307,7 @@ exports.addStrategy = async (req, res) => {
 												}",active_leg=${0},strike_price=${leg3[1]},call_put="${
 													leg3[2]
 												}",quantity=${
-													leg3[3].match(r) * 25
+													leg3[3].match(r) * 15
 												} WHERE id = ${leg3_id}`,
 												async (err, result) => {
 													if (!err) {
@@ -346,7 +346,7 @@ exports.addStrategy = async (req, res) => {
 												}",active_leg=${0},strike_price=${leg4[1]},call_put="${
 													leg4[2]
 												}",quantity=${
-													leg4[3].match(r) * 25
+													leg4[3].match(r) * 15
 												} WHERE id = ${leg4_id}`,
 												async (err, result) => {
 													if (!err) {
@@ -583,7 +583,7 @@ exports.strategiesWatcher = async () => {
 			for (let index = 0; index < legs.length; index++) {
 				let leg = legs[index];
 				let strike_price = strike + leg.strike_price;
-				let totalQuantity = (leg.quantity / 25) * leg.total_quantity;
+				let totalQuantity = (leg.quantity / 15) * leg.total_quantity;
 				let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
 				let quote = await getQuotes([code]);
 				let quoteval = quote ? quote[code] : null;
@@ -617,7 +617,7 @@ exports.strategiesWatcher = async () => {
 								buy_sell: leg.buy_sell,
 								strike_price: strike_price,
 								call_put: leg.call_put,
-								quantity: chunkQuantities[j] * 25,
+								quantity: chunkQuantities[j] * 15,
 								entry_price: currentRate,
 								entry_bn: bnPrice,
 								entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
