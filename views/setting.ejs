@@ -219,6 +219,9 @@
     </form>
     <script>
       let settingDetail;
+      let lotSize = '<%= lotSize %>';
+      // console.log("lotSize", lotSize)
+      
       function exitTime() {
         var x = document.getElementById("entry_time").value;
         localStorage.setItem("entry-time", x);
@@ -260,7 +263,7 @@
               data[0].setting_data[0]?.call_put +
               " " +
               "Q" +
-              data[0].setting_data[0]?.quantity / 25
+              data[0].setting_data[0]?.quantity / lotSize
             : "";
         document.getElementById("s1l2").value =
           data[0].setting_data[1].active_leg === 0
@@ -272,7 +275,7 @@
               data[0].setting_data[1]?.call_put +
               " " +
               "Q" +
-              data[0].setting_data[1]?.quantity / 25
+              data[0].setting_data[1]?.quantity / lotSize
             : "";
         document.getElementById("s2l1").value =
           data[0].setting_data[2].active_leg === 0
@@ -284,7 +287,7 @@
               data[0].setting_data[2]?.call_put +
               " " +
               "Q" +
-              data[0].setting_data[2]?.quantity / 25
+              data[0].setting_data[2]?.quantity / lotSize
             : "";
         document.getElementById("s2l2").value =
           data[0].setting_data[3].active_leg === 0
@@ -296,7 +299,7 @@
               data[0].setting_data[3]?.call_put +
               " " +
               "Q" +
-              data[0].setting_data[3]?.quantity / 25
+              data[0].setting_data[3]?.quantity / lotSize
             : "";
         document.getElementById("setting_id").value =
           data[0].setting_data[0].id;

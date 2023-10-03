@@ -5,6 +5,7 @@ const {
 } = require("../config/kiteConnect");
 const moment = require("moment");
 const sql = require("../models/sqlConnection");
+const { LOT_QUANTITY } = require("../utils/constant");
 require("dotenv").config();
 
 let watchListData = [];
@@ -12,7 +13,7 @@ let watchListData = [];
 exports.home = (req, res) => {
   // console.log("resresresres", res);
   const user = {};
-  return res.render("login", { user });
+  return res.render("login", { user, API_KEY: process.env.API_KEY });
 };
 
 exports.user = async (req, res) => {
@@ -51,5 +52,8 @@ exports.setting = async (req, res) => {
   // }
   // const user = {};
   // res.render("login", { user });
-  return res.render("setting");
+  // res.local.lotSize = LOT_QUANTITY;
+  return res.render("setting", {
+    lotSize: LOT_QUANTITY,
+  });
 };

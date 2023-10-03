@@ -3,7 +3,7 @@ const db = require("../models/index");
 const { getQuotes } = require("../config/kiteConnect");
 const moment = require("moment");
 const watchListModel = db.watchList;
-const watchLists_backup = db.watchLists_backup;
+const watchLists_backup = db.watchLists_backup;	
 const getOrdersLegs = async () => {
 	return new Promise((resolve, reject) => {
 		sql.query(

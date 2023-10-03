@@ -17,9 +17,9 @@ const instrument_url = "https://api.kite.trade/quote?i=NSE:INFY&i=NSE:AWL";
 const login_url = `https://kite.zerodha.com/connect/login?v=3&api_key=${API_KEY}&redirect_params=/`;
 
 const checksum = hash
-  .sha256()
-  .update(`${API_KEY}${request_token}${API_SECRET}`)
-  .digest("hex");
+	.sha256()
+	.update(`${API_KEY}${request_token}${API_SECRET}`)
+	.digest("hex");
 
 // example one
 
@@ -103,10 +103,10 @@ const { curly } = require("node-libcurl");
 // instruments();
 
 async function login() {
-  console.log("first", login_url);
-  const { statusCode, data, headers } = await curly.get(login_url);
+	console.log("login Url===>>", login_url);
+	const { statusCode, data, headers } = await curly.get(login_url);
 
-  console.log(statusCode, data, headers);
+	console.log(statusCode, data, headers);
 }
 
 login();

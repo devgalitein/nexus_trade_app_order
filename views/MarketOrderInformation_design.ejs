@@ -333,6 +333,7 @@
   ></script>
 
   <script>
+    let lotSize = '<%= lotSize %>';
     function myFunction() {
       var x = document.getElementById("leg1-btn");
       if (x.style.display === "none") {
@@ -391,13 +392,13 @@
                 item.strikeCurrent +
                 item.call_put +
                 "Q" +
-                item.quantity / 25
+                item.quantity / lotSize
               : "Sell" +
                 item.strikeCurrent +
                 " " +
                 item.call_put +
                 "Q" +
-                item.quantity / 25;
+                item.quantity / lotSize;
 
           row.appendChild(document.createElement("td")).textContent =
             item.strike_price + " " + item.call_put;

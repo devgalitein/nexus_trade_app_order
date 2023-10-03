@@ -8,6 +8,8 @@ const {
 const moment = require("moment");
 const sql = require("../models/sqlConnection");
 const logger = require("../logger");
+const LOT_QUANTITY = require("../utils/constant")
+
 
 const { getOrdersLegs, getNiftyPrice } = require("../config/helper");
 function getNextDayOfWeek(date, dayOfWeek) {
@@ -87,7 +89,7 @@ exports.addStrategy = async (req, res) => {
                         }, ${result.insertId}, '${leg1[0]}', '${leg1[1]}', '${
                           leg1[2]
                         }', '${
-                          leg1[3].match(r) * 25 * total_quantity
+                          leg1[3].match(r) * LOT_QUANTITY * total_quantity
                         }','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
@@ -108,7 +110,7 @@ exports.addStrategy = async (req, res) => {
                         }, ${result.insertId}, '${leg2[0]}', '${leg2[1]}', '${
                           leg2[2]
                         }', '${
-                          leg2[3].match(r) * 25 * total_quantity
+                          leg2[3].match(r) * LOT_QUANTITY * total_quantity
                         }','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
@@ -144,7 +146,7 @@ exports.addStrategy = async (req, res) => {
                         }, ${result.insertId}, '${leg3[0]}', '${leg3[1]}', '${
                           leg3[2]
                         }', '${
-                          leg3[3].match(r) * 25 * total_quantity
+                          leg3[3].match(r) * LOT_QUANTITY * total_quantity
                         }','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
@@ -165,7 +167,7 @@ exports.addStrategy = async (req, res) => {
                         }, ${result.insertId}, '${leg4[0]}', '${leg4[1]}', '${
                           leg4[2]
                         }', '${
-                          leg4[3].match(r) * 25 * total_quantity
+                          leg4[3].match(r) * LOT_QUANTITY * total_quantity
                         }','${created_at}')`,
                         async (err, result) => {
                           if (!err) {
@@ -219,7 +221,7 @@ exports.addStrategy = async (req, res) => {
                         }",strike_price=${leg1[1]},call_put="${
                           leg1[2]
                         }",quantity=${
-                          leg1[3].match(r) * 25 * total_quantity
+                          leg1[3].match(r) * LOT_QUANTITY * total_quantity
                         } WHERE id = ${leg1_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -239,8 +241,8 @@ exports.addStrategy = async (req, res) => {
                           leg2[0]
                         }",strike_price=${leg2[1]},call_put="${
                           leg2[2]
-                        }",quantity=${
-                          leg2[3].match(r) * 25 * total_quantity
+                        }",quantity=${  
+                          leg2[3].match(r) * LOT_QUANTITY * total_quantity
                         } WHERE id = ${leg2_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -276,7 +278,7 @@ exports.addStrategy = async (req, res) => {
                         }",strike_price=${leg3[1]},call_put="${
                           leg3[2]
                         }",quantity=${
-                          leg3[3].match(r) * 25 * total_quantity
+                          leg3[3].match(r) * LOT_QUANTITY * total_quantity
                         } WHERE id = ${leg3_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -297,7 +299,7 @@ exports.addStrategy = async (req, res) => {
                         }",strike_price=${leg4[1]},call_put="${
                           leg4[2]
                         }",quantity=${
-                          leg4[3].match(r) * 25 * total_quantity
+                          leg4[3].match(r) * LOT_QUANTITY * total_quantity
                         } WHERE id = ${leg4_id}`,
                         async (err, result) => {
                           if (!err) {
@@ -441,6 +443,8 @@ exports.getOrder = async (callback) => {
 exports.strategiesWatcher = async () => {
   try {
     let legs = await getOrdersLegs();
+
+    console.log("legslegslegs",legs)
     if (legs) {
       let order = [];
 
@@ -451,7 +455,7 @@ exports.strategiesWatcher = async () => {
         let leg = legs[index];
         // console.log("legleglegleg", leg);
 
-        let totalQuantity = leg.quantity / 25;
+        let totalQuantity = leg.quantity / LOT_QUANTITY;
         let current_time = moment(new Date(), "HH:mm:ss").format("HH:mm");
         // let remainingQut = totalQuantity - leg.allow_order;
         const remainingQuantity = totalQuantity;
@@ -499,7 +503,7 @@ exports.strategiesWatcher = async () => {
                 buy_sell: leg.buy_sell,
                 strike_price: strike_price,
                 call_put: leg.call_put,
-                quantity: chunkQuantities[j] * 25,
+                quantity: chunkQuantities[j] * LOT_QUANTITY,
                 entry_price: currentRate,
                 entry_bn: bnPrice,
                 entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
@@ -653,7 +657,7 @@ async function commonFunctionForDataInsert(leg) {
   let code = `NFO:BANKNIFTY${getThurday}${strike_price}${leg.call_put.toUpperCase()}`;
   let quote = await getQuotes([code]);
   let quoteval = quote ? quote[code] : null;
-  console.log("quotevalquotevalquoteval", quoteval);
+  // console.log("quotevalquotevalquoteval", quoteval);
   if (quoteval) {
     let currentRate = quoteval.last_price;
     let query = "INSERT INTO orders SET ?";
@@ -1091,7 +1095,7 @@ exports.orderForMarket = async (req, result) => {
         //   });
         //   params.pnl = rateDiff;
         //   params.exit_price = currentRate;
-        //   params.exit_date_time = currentTime;
+        //   params.exit_date_time = currentTime; 
         //   params.time = moment().format("YYYY-MM-DD HH:mm:ss");
         //   params.exit_bn = bnPrice;
         //   logger.log("info", params);

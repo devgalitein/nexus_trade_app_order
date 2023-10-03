@@ -15,12 +15,12 @@ dotenvExpand.expand(dotenv.config());
 const app = express();
 app.use(cookieParser());
 app.use(
-  session({
-    secret: "nexus trade",
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 2 },
-  })
+	session({
+		secret: "nexus trade",
+		resave: true,
+		saveUninitialized: true,
+		cookie: { maxAge: 1000 * 60 * 2 },
+	})
 );
 
 // app.use(cors());
@@ -44,19 +44,19 @@ const PORT = process.env.PORT || 7000;
 
 const { home, user, setting } = require("./controllers/userController");
 const {
-  addStrategy,
-  MarketOrder,
-  strategiesWatcher,
-  orderWatcher,
-  niftyWatcher,
-  getOrder,
-  getSettingdata,
-  positions,
-  orderForMarket,
-  orderData,
-  OrderStrategy,
-  getOrdermarketprice,
-  // getBankHolidays
+	addStrategy,
+	MarketOrder,
+	strategiesWatcher,
+	orderWatcher,
+	niftyWatcher,
+	getOrder,
+	getSettingdata,
+	positions,
+	orderForMarket,
+	orderData,
+	OrderStrategy,
+	getOrdermarketprice,
+	// getBankHolidays
 } = require("./controllers/strategyController.js");
 // const {
 // createWatchList,
@@ -81,63 +81,63 @@ app.get("/", setting);
 
 require("./socket")(io);
 io.on("connection", (socket) => {
-  console.log("a user connected via socket!sdfffffff");
-  let dataNifty;
-  let dataOrder;
+	console.log("user connected via socket!");
+	let dataNifty;
+	let dataOrder;
 
-  socket.on(
-    "nifty-data",
-    function (data) {
-      niftyWatcher()
-        .then((res) => {
-          dataNifty = res;
-          socket.emit("nifty-data-getted", res);
-        })
-        .catch((error) => {
-          console.log("datadatadatadata", error);
-        });
-    },
-    1000
-  );
-  socket.on(
-    "order-data",
-    function (data) {
-      getOrder((data) => {
-        socket.emit("order-data-getted", data);
-      });
-    },
-    1000
-  );
-  socket.on(
-    "setting-data",
-    function (data) {
-      getSettingdata((data) => {
-        socket.emit("setting-data-getted", data);
-      });
-    },
-    1000
-  );
+	socket.on(
+		"nifty-data",
+		function (data) {
+			niftyWatcher()
+				.then((res) => {
+					dataNifty = res;
+					socket.emit("nifty-data-getted", res);
+				})
+				.catch((error) => {
+					console.log("socket error ==>>", error);
+				});
+		},
+		1000
+	);
+	socket.on(
+		"order-data",
+		function (data) {
+			getOrder((data) => {
+				socket.emit("order-data-getted", data);
+			});
+		},
+		1000
+	);
+	socket.on(
+		"setting-data",
+		function (data) {
+			getSettingdata((data) => {
+				socket.emit("setting-data-getted", data);
+			});
+		},
+		1000
+	);
 
-  socket.on(
-    "order-final-data",
-    function (data) {
-      getOrder((data) => {
-        socket.emit("order-final-data-getted", data);
-      });
-    },
-    1000
-  );
-  socket.on(
-    "position-final-data",
-    function (data) {
-      positions((data) => {
-        socket.emit("position-final-data-getted", data);
-      });
-    },
-    1000
-  );
+	socket.on(
+		"order-final-data",
+		function (data) {
+			getOrder((data) => {
+				socket.emit("order-final-data-getted", data);
+			});
+		},
+		1000
+	);
+	socket.on(
+		"position-final-data",
+		function (data) {
+			positions((data) => {
+				socket.emit("position-final-data-getted", data);
+			});
+		},
+		1000
+	);
 });
 
 server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+	console.log(`Server is running on http://localhost:${PORT}`);
 });
