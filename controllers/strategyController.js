@@ -683,6 +683,7 @@ exports.strategiesWatcher = async () => {
                 entry_date_time: moment().format("YYYY-MM-DD HH:mm:ss"),
                 created_at: moment().format("YYYY-MM-DD"),
                 order_created: j + 1,
+                point_reach: "false",
               };
               order.push(newData);
             }
@@ -718,9 +719,10 @@ exports.addOrder = async (req, res) => {
         sql.query(
           `SELECT * FROM orders where leg_id=${
             element.leg_id
-          } AND created_at ="${moment().format("YYYY-MM-DD")}" 
+          } AND created_at ="${moment().format("YYYY-MM-DD")}"
 					AND quantity=${element.quantity} AND order_created=${element.order_created}`,
           async (err, result) => {
+            // console.log(result, "result==>");
             if (result && result.length <= 0) {
               let params = {
                 exchange: "NFO",
@@ -740,6 +742,7 @@ exports.addOrder = async (req, res) => {
               element.order_error = orderData?.[2].status
                 ? orderData?.[2]?.status_message
                 : "";
+              element.point_reach = "false";
               // console.log("resultresultresult---->", element);
               orderArr.push([...orderArr, element]);
 
@@ -819,6 +822,11 @@ exports.orderWatcher = async () => {
               currentRate: currentRate,
               rateDiff: rateDiff,
               bnPrice: bnPrice,
+              pointReach:
+                bnDiff >= order.exit_bn_profit ||
+                (bnDiff < 0 && Math.abs(bnDiff) >= order.exit_bn_loss)
+                  ? true
+                  : false,
             });
           }
         }
@@ -829,7 +837,7 @@ exports.orderWatcher = async () => {
   );
 };
 exports.orderExitFunction = async (req, result) => {
-  let { order, currentRate, rateDiff, i } = req;
+  let { order, currentRate, rateDiff, i, pointReach } = req;
   // console.log(order, "order======>");
   let currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
   // let bnPrice = await getNiftyPrice();
@@ -839,7 +847,7 @@ exports.orderExitFunction = async (req, result) => {
   if (bnPrice) {
     //  = data;
     // console.log("enterbnprice==>");
-    let update_query = `UPDATE orders SET exit_price = ${currentRate},exit_date_time="${currentTime}",buy_sell="${"sell"}",pnl=${rateDiff} ,exit_bn=${bnPrice} WHERE orders.id = ${
+    let update_query = `UPDATE orders SET exit_price = ${currentRate},exit_date_time="${currentTime}",buy_sell="${"sell"}",pnl=${rateDiff} ,exit_bn=${bnPrice},point_reach="${pointReach}",order_created= 0 WHERE orders.id = ${
       order.id
     } AND created_at='${moment().format("YYYY-MM-DD")}' `;
     let params = {

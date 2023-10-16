@@ -1,351 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="setting.css" />
-  </head>
-  <body>
-    <form action="/addStrategy" method="POST">
-      <fieldset>
-        <div class="main-title-part my-5 pb-3 border-bottom border-secondary">
-          <h1 class="mb-0">Setting</h1>
+
+<head>
+  <link rel="stylesheet" href="setting.css" />
+</head>
+
+<body>
+  <form action="/addStrategy" method="POST">
+    <fieldset>
+      <div class="main-title-part my-5 pb-3 border-bottom border-secondary">
+        <h1 class="mb-0">Setting</h1>
+      </div>
+      <input type="hidden" id="setting_id" name="setting_id" />
+
+      <input type="hidden" id="str1_id" name="str1_id" />
+      <input type="hidden" id="str2_id" name="str2_id" />
+      <input type="hidden" id="leg1_id" name="leg1_id" />
+
+      <input type="hidden" id="leg2_id" name="leg2_id" />
+      <input type="hidden" id="leg3_id" name="leg3_id" />
+      <input type="hidden" id="leg4_id" name="leg4_id" />
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="exit_bn_loss" class="form-label">Exit BN moment (Minus)</label>
+            <input type="text" class="form-control" id="exit_bn_loss" name="exit_bn_loss"
+              placeholder="Exit BN moment (Minus)" required />
+          </div>
         </div>
-        <input type="hidden" id="setting_id" name="setting_id" />
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="exit_bn_profit" class="form-label">Exit BN moment (Plus)</label>
+            <input type="text" class="form-control" id="exit_bn_profit" placeholder="Exit BN moment (Plus)"
+              name="exit_bn_profit" required />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="entry_time" class="form-label">Entry time</label>
+            <input type="text" class="form-control" id="entry_time" name="entry_time" placeholder="Entry time"
+              onchange="exitTime()" required />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="exit_time" class="form-label">Max exit time</label>
+            <input type="text" class="form-control" id="exit_time" name="exit_time" placeholder="Max exit time"
+              required />
+          </div>
+        </div>
+        <div class="col-sm-6" style="display: none;">
+          <div class="mb-3">
+            <br />
+            <input type="checkbox" id="auto_repeat" name="auto_repeat" value="1" disabled />
+            <!-- <label for="auto_repeat" class="form-label">Auto repeat(Not working right now)</label> -->
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="total_quantity" class="form-label">Lots per leg</label>
+            <input type="text" id="total_quantity" name="total_quantity" required class="form-control" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="order_type" class="form-label">Order type</label>
+            <input type="radio" id="market" name="order_type" value="MARKET" onclick="ShowHideDiv()" />
+            Market
+            <input type="radio" id="SL" name="order_type" value="SL" onclick="ShowHideDiv()" />
+            SL
+            <input type="text" id="sl_value" style="display: none" value="" name="sl_value" class="form-control" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="allow_order" class="form-label">Allows legs per order</label>
+            <input type="text" id="allow_order" name="allow_order" required class="form-control" />
+          </div>
+        </div>
+      </div>
 
-        <input type="hidden" id="str1_id" name="str1_id" />
-        <input type="hidden" id="str2_id" name="str2_id" />
-        <input type="hidden" id="leg1_id" name="leg1_id" />
-
-        <input type="hidden" id="leg2_id" name="leg2_id" />
-        <input type="hidden" id="leg3_id" name="leg3_id" />
-        <input type="hidden" id="leg4_id" name="leg4_id" />
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="exit_bn_loss" class="form-label"
-                >Exit BN moment (Minus)</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="exit_bn_loss"
-                name="exit_bn_loss"
-                placeholder="Exit BN moment (Minus)"
-                required
-              />
-            </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="s1name" class="form-label">Strategy name 1</label>
+            <input type="text" class="form-control" id="s1name" name="s1name" placeholder="s1 name" required />
           </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="exit_bn_profit" class="form-label"
-                >Exit BN moment (Plus)</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="exit_bn_profit"
-                placeholder="Exit BN moment (Plus)"
-                name="exit_bn_profit"
-                required
-              />
-            </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="s2name" class="form-label">Strategy name 2</label>
+            <input type="text" id="s2name" name="s2name" required class="form-control" />
           </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="entry_time" class="form-label">Entry time</label>
-              <input
-                type="text"
-                class="form-control"
-                id="entry_time"
-                name="entry_time"
-                placeholder="Entry time"
-                onchange="exitTime()"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="exit_time" class="form-label">Max exit time</label>
-              <input
-                type="text"
-                class="form-control"
-                id="exit_time"
-                name="exit_time"
-                placeholder="Max exit time"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <br />
-              <input
-                type="checkbox"
-                id="auto_repeat"
-                name="auto_repeat"
-                value="1"
-                disabled
-              />
-              <label for="auto_repeat" class="form-label"
-                >Auto repeat(Not working right now)</label
-              >
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="total_quantity" class="form-label"
-                >Lots per leg</label
-              >
-              <input
-                type="text"
-                id="total_quantity"
-                name="total_quantity"
-                required
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="order_type" class="form-label">Order type</label>
-              <input
-                type="radio"
-                id="market"
-                name="order_type"
-                value="MARKET"
-                onclick="ShowHideDiv()"
-              />
-              Market
-              <input
-                type="radio"
-                id="SL"
-                name="order_type"
-                value="SL"
-                onclick="ShowHideDiv()"
-              />
-              SL
-              <input
-                type="text"
-                id="sl_value"
-                style="display: none"
-                value=""
-                name="sl_value"
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="allow_order" class="form-label"
-                >Allows legs per order</label
-              >
-              <input
-                type="text"
-                id="allow_order"
-                name="allow_order"
-                required
-                class="form-control"
-              />
-            </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="s1l1" class="form-label">Strategy 1 leg 1</label>
+            <input type="text" id="s1l1" name="s1l1" require class="form-control" />
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="s1name" class="form-label">Strategy name 1</label>
-              <input
-                type="text"
-                class="form-control"
-                id="s1name"
-                name="s1name"
-                placeholder="s1 name"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="s2name" class="form-label">Strategy name 2</label>
-              <input
-                type="text"
-                id="s2name"
-                name="s2name"
-                required
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="s1l1" class="form-label">Strategy 1 leg 1</label>
-              <input
-                type="text"
-                id="s1l1"
-                name="s1l1"
-                require
-                class="form-control"
-              />
-            </div>
-          </div>
-
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="s2l1" class="form-label">Strategy 2 leg 1 </label>
-              <input type="text" id="s2l1" name="s2l1" class="form-control" />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="s1l2" class="form-label">Strategy 1 leg 2</label>
-              <input type="text" id="s1l2" name="s1l2" class="form-control" />
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="mb-3">
-              <label for="s2l2" class="form-label">Strategy 2 leg 2 </label>
-              <input type="text" id="s2l2" name="s2l2" class="form-control" />
-            </div>
-          </div>
-
-          <div class="col-12">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button class="btn btn-warning" type="reset">Reset</button>
-              <button class="btn btn-success" type="submit">Submit</button>
-            </div>
+        <div class="col-sm-6">
+          <div class="mb-3">
+            <label for="s2l1" class="form-label">Strategy 2 leg 1 </label>
+            <input type="text" id="s2l1" name="s2l1" class="form-control" />
           </div>
         </div>
-      </fieldset>
-    </form>
-    <script>
-      let settingDetail;
-      let lotSize = '<%= lotSize %>';
-      // console.log("lotSize", lotSize)
-      
-      function exitTime() {
-        var x = document.getElementById("entry_time").value;
-        localStorage.setItem("entry-time", x);
+        <div class="col-sm-6" style="display: none;">
+          <div class="mb-3">
+            <!-- <label for="s1l2" class="form-label">Strategy 1 leg 2</label> -->
+            <input type="text" id="s1l2" name="s1l2" class="form-control" />
+          </div>
+        </div>
+        <div class="col-sm-6" style="display: none;">
+          <div class="mb-3">
+            <!-- <label for="s2l2" class="form-label">Strategy 2 leg 2 </label> -->
+            <input type="text" id="s2l2" name="s2l2" class="form-control" />
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-warning" type="reset">Reset</button>
+            <button class="btn btn-success" type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <script>
+    let settingDetail;
+    let lotSize = '<%= lotSize %>';
+    // console.log("lotSize", lotSize)
+
+    function exitTime() {
+      var x = document.getElementById("entry_time").value;
+      localStorage.setItem("entry-time", x);
+    }
+
+    socket.emit("setting-data", settingDetail);
+    socket.on("setting-data-getted", function (data) {
+      console.log("setting_datasetting_datasetting_data", data);
+      document.getElementById("exit_bn_loss").value =
+        data[0].setting_data[0].exit_bn_loss;
+      document.getElementById("exit_bn_profit").value =
+        data[0].setting_data[0].exit_bn_profit;
+      document.getElementById("entry_time").value =
+        data[0].setting_data[0].entry_time;
+      document.getElementById("exit_time").value =
+        data[0].setting_data[0].exit_time;
+      document.getElementById("auto_repeat").checked =
+        data[0].setting_data[0].auto_repeat === 0 ? false : true;
+      document.getElementById("s1name").value = data[1].str_value[0].name;
+      document.getElementById("s2name").value = data[1].str_value[1].name;
+
+      let firstlegValue =
+        data[0].setting_data[0]?.strike_price > 0 ? "+" : "";
+      let secondlegValue =
+        data[0].setting_data[1]?.strike_price > 0 ? "+" : "";
+      let thirdlegValue =
+        data[0].setting_data[2]?.strike_price > 0 ? "+" : "";
+      let forthlegValue =
+        data[0].setting_data[3]?.strike_price > 0 ? "+" : "";
+      console.log("data[0].setting_data", data[0].setting_data);
+
+      document.getElementById("s1l1").value =
+        data[0].setting_data[0].active_leg === 0
+          ? data[0].setting_data[0]?.buy_sell +
+          " " +
+          firstlegValue +
+          data[0].setting_data[0]?.strike_price +
+          " " +
+          data[0].setting_data[0]?.call_put +
+          " " +
+          "Q" +
+          data[0].setting_data[0]?.quantity / lotSize
+          : "";
+      document.getElementById("s1l2").value =
+        data[0].setting_data[1].active_leg === 0
+          ? data[0].setting_data[1]?.buy_sell +
+          " " +
+          secondlegValue +
+          data[0].setting_data[1]?.strike_price +
+          " " +
+          data[0].setting_data[1]?.call_put +
+          " " +
+          "Q" +
+          data[0].setting_data[1]?.quantity / lotSize
+          : "";
+      document.getElementById("s2l1").value =
+        data[0].setting_data[2].active_leg === 0
+          ? data[0].setting_data[2]?.buy_sell +
+          " " +
+          thirdlegValue +
+          data[0].setting_data[2]?.strike_price +
+          " " +
+          data[0].setting_data[2]?.call_put +
+          " " +
+          "Q" +
+          data[0].setting_data[2]?.quantity / lotSize
+          : "";
+      document.getElementById("s2l2").value =
+        data[0].setting_data[3].active_leg === 0
+          ? data[0].setting_data[3]?.buy_sell +
+          " " +
+          forthlegValue +
+          data[0].setting_data[3]?.strike_price +
+          " " +
+          data[0].setting_data[3]?.call_put +
+          " " +
+          "Q" +
+          data[0].setting_data[3]?.quantity / lotSize
+          : "";
+      document.getElementById("setting_id").value =
+        data[0].setting_data[0].id;
+      document.getElementById("str1_id").value = data[1].str_value[0].id;
+      document.getElementById("str2_id").value = data[1].str_value[1].id;
+      document.getElementById("leg1_id").value =
+        data[0].setting_data[0]?.legs_id;
+      document.getElementById("leg2_id").value =
+        data[0].setting_data[1]?.legs_id;
+      document.getElementById("leg3_id").value =
+        data[0].setting_data[2]?.legs_id;
+      document.getElementById("leg4_id").value =
+        data[0].setting_data[3]?.legs_id;
+      document.getElementById("allow_order").value =
+        data[0].setting_data[0].allow_order;
+      document.getElementById("total_quantity").value =
+        data[0].setting_data[0].total_quantity;
+      if (data[0].setting_data[0].order_type === "MARKET") {
+        document.getElementById("market").checked = true;
+        document.getElementById("sl_value").value = "";
+      } else {
+        document.getElementById("SL").checked = true;
+        ShowHideDiv();
+        document.getElementById("sl_value").value =
+          data[0].setting_data[0].sl_value;
       }
+    });
+    function ShowHideDiv() {
+      var chkYes = document.getElementById("SL");
+      var dvPassport = document.getElementById("sl_value");
+      dvPassport.style.display = chkYes.checked ? "block" : "none";
+    }
 
-      socket.emit("setting-data", settingDetail);
-      socket.on("setting-data-getted", function (data) {
-        console.log("setting_datasetting_datasetting_data", data);
-        document.getElementById("exit_bn_loss").value =
-          data[0].setting_data[0].exit_bn_loss;
-        document.getElementById("exit_bn_profit").value =
-          data[0].setting_data[0].exit_bn_profit;
-        document.getElementById("entry_time").value =
-          data[0].setting_data[0].entry_time;
-        document.getElementById("exit_time").value =
-          data[0].setting_data[0].exit_time;
-        document.getElementById("auto_repeat").checked =
-          data[0].setting_data[0].auto_repeat === 0 ? false : true;
-        document.getElementById("s1name").value = data[1].str_value[0].name;
-        document.getElementById("s2name").value = data[1].str_value[1].name;
+    socket.emit("get:market-quotes", { name: "dev" }, (data) => {
+      console.log("EMIT callback", data);
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+    crossorigin="anonymous"></script>
+</body>
 
-        let firstlegValue =
-          data[0].setting_data[0]?.strike_price > 0 ? "+" : "";
-        let secondlegValue =
-          data[0].setting_data[1]?.strike_price > 0 ? "+" : "";
-        let thirdlegValue =
-          data[0].setting_data[2]?.strike_price > 0 ? "+" : "";
-        let forthlegValue =
-          data[0].setting_data[3]?.strike_price > 0 ? "+" : "";
-        console.log("data[0].setting_data", data[0].setting_data);
-
-        document.getElementById("s1l1").value =
-          data[0].setting_data[0].active_leg === 0
-            ? data[0].setting_data[0]?.buy_sell +
-              " " +
-              firstlegValue +
-              data[0].setting_data[0]?.strike_price +
-              " " +
-              data[0].setting_data[0]?.call_put +
-              " " +
-              "Q" +
-              data[0].setting_data[0]?.quantity / lotSize
-            : "";
-        document.getElementById("s1l2").value =
-          data[0].setting_data[1].active_leg === 0
-            ? data[0].setting_data[1]?.buy_sell +
-              " " +
-              secondlegValue +
-              data[0].setting_data[1]?.strike_price +
-              " " +
-              data[0].setting_data[1]?.call_put +
-              " " +
-              "Q" +
-              data[0].setting_data[1]?.quantity / lotSize
-            : "";
-        document.getElementById("s2l1").value =
-          data[0].setting_data[2].active_leg === 0
-            ? data[0].setting_data[2]?.buy_sell +
-              " " +
-              thirdlegValue +
-              data[0].setting_data[2]?.strike_price +
-              " " +
-              data[0].setting_data[2]?.call_put +
-              " " +
-              "Q" +
-              data[0].setting_data[2]?.quantity / lotSize
-            : "";
-        document.getElementById("s2l2").value =
-          data[0].setting_data[3].active_leg === 0
-            ? data[0].setting_data[3]?.buy_sell +
-              " " +
-              forthlegValue +
-              data[0].setting_data[3]?.strike_price +
-              " " +
-              data[0].setting_data[3]?.call_put +
-              " " +
-              "Q" +
-              data[0].setting_data[3]?.quantity / lotSize
-            : "";
-        document.getElementById("setting_id").value =
-          data[0].setting_data[0].id;
-        document.getElementById("str1_id").value = data[1].str_value[0].id;
-        document.getElementById("str2_id").value = data[1].str_value[1].id;
-        document.getElementById("leg1_id").value =
-          data[0].setting_data[0]?.legs_id;
-        document.getElementById("leg2_id").value =
-          data[0].setting_data[1]?.legs_id;
-        document.getElementById("leg3_id").value =
-          data[0].setting_data[2]?.legs_id;
-        document.getElementById("leg4_id").value =
-          data[0].setting_data[3]?.legs_id;
-        document.getElementById("allow_order").value =
-          data[0].setting_data[0].allow_order;
-        document.getElementById("total_quantity").value =
-          data[0].setting_data[0].total_quantity;
-        if (data[0].setting_data[0].order_type === "MARKET") {
-          document.getElementById("market").checked = true;
-          document.getElementById("sl_value").value = "";
-        } else {
-          document.getElementById("SL").checked = true;
-          ShowHideDiv();
-          document.getElementById("sl_value").value =
-            data[0].setting_data[0].sl_value;
-        }
-      });
-      function ShowHideDiv() {
-        var chkYes = document.getElementById("SL");
-        var dvPassport = document.getElementById("sl_value");
-        dvPassport.style.display = chkYes.checked ? "block" : "none";
-      }
-
-      socket.emit("get:market-quotes", { name: "dev" }, (data) => {
-        console.log("EMIT callback", data);
-      });
-    </script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-      crossorigin="anonymous"
-    ></script>
-  </body>
 </html>

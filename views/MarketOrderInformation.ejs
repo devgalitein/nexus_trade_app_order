@@ -11,19 +11,21 @@
   <div class="bank-status-div bg-info">
     <h6 class="bankNifty">
       <b>Status :</b>
-      <span id="bank-status"
-        ><span id="legs-stattus">Entry is not taken yet</span></span
-      >
+      <span id="bank-status"><span id="legs-stattus">Entry is not taken yet</span></span>
     </h6>
   </div>
-  <div class="card pt-3 px-3 mb-3 main-status-box" id="main-status-box">
+  <div>
     <h6 id="s1Id"></h6>
+  </div>
+  <div class="card pt-3 px-3 mb-3 main-status-box" id="main-status-box">
     <table class="table mb-0">
       <tbody id="order-info"></tbody>
     </table>
   </div>
-  <div class="card pt-3 px-3 mb-3 main-status-box" id="main-status-box1">
+  <div class="w-auto">
     <h6 id="s2Id"></h6>
+  </div>
+  <div class="card pt-3 px-3 mb-3 main-status-box" id="main-status-box1">
     <table class="table mb-0">
       <tbody id="order-infos"></tbody>
     </table>
@@ -33,7 +35,7 @@
     <table class="table mb-0">
       <tbody>
         <tr>
-          <th>Over all</th>
+          <th>Over all (For one quantity)</th>
           <td colspan="6"></td>
         </tr>
         <tr>
@@ -58,20 +60,10 @@
         </tr>
         <tr>
           <td colspan="2">
-            <button
-              type="button"
-              class="btn btn-danger"
-              id="all-order-market"
-              onclick="getOrdermarketprice('M')"
-            >
+            <button type="button" class="btn btn-danger" id="all-order-market" onclick="getOrdermarketprice('M')">
               M
             </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              id="all-order-sl"
-              onclick="getOrdermarketprice('SL')"
-            >
+            <button type="button" class="btn btn-danger" id="all-order-sl" onclick="getOrdermarketprice('SL')">
               SL
             </button>
             <button type="button" class="btn btn-outline-warning text-dark">
@@ -82,12 +74,9 @@
       </tbody>
     </table>
   </div>
-  <script
-    type="text/JavaScript"
-    src="https://MomentJS.com/downloads/moment.js"
-  ></script>
+  <script type="text/JavaScript" src="https://MomentJS.com/downloads/moment.js"></script>
   <script>
-     let lotSize = '<%= lotSize %>';
+    let lotSize = '<%= lotSize %>';
     const getOrdermarketprice = (type) => {
       // this.setAttribute("disabled");
       window.location.href = `getOrdermarketprice/${type}`;
@@ -146,6 +135,7 @@
         document.getElementById("total-part-section").style.display = "block";
         data.map((item) => {
           if (item.strategy_id % 2 == 0) {
+            // console.log(item, "item==>")
             strId = item.strategy_id;
             document.getElementById("main-status-box").style.display = "block";
 
@@ -160,20 +150,20 @@
             div.innerHTML =
               item.buy_sell === "Buy"
                 ? "Buy" +
-                  " " +
-                  item.strikeCurrent +
-                  " " +
-                  item.call_put +
-                  " " +
-                  "Q" +
-                  item.quantity / lotSize
+                " " +
+                item.strikeCurrent +
+                " " +
+                item.call_put +
+                " " +
+                "Q" +
+                item.quantity / lotSize
                 : "Sell" +
-                  item.strikeCurrent +
-                  " " +
-                  item.call_put +
-                  "Q" +
-                  item.quantity / lotSize +
-                  " ";
+                item.strikeCurrent +
+                " " +
+                item.call_put +
+                "Q" +
+                item.quantity / lotSize +
+                " ";
             let qtySher = item.strike_price + item.call_put;
             spanQut.innerHTML = " " + "(" + qtySher + ")";
             divqut.innerHTML = "QUT : " + item.quantity;
@@ -251,20 +241,20 @@
             div.innerHTML =
               item.buy_sell === "Buy"
                 ? "Buy" +
-                  " " +
-                  item.strikeCurrent +
-                  " " +
-                  item.call_put +
-                  " " +
-                  "Q" +
-                  item.quantity / lotSize
+                " " +
+                item.strikeCurrent +
+                " " +
+                item.call_put +
+                " " +
+                "Q" +
+                item.quantity / lotSize
                 : "Sell" +
-                  item.strikeCurrent +
-                  " " +
-                  item.call_put +
-                  "Q" +
-                  item.quantity / lotSize +
-                  " ";
+                item.strikeCurrent +
+                " " +
+                item.call_put +
+                "Q" +
+                item.quantity / lotSize +
+                " ";
             let qtySher = item.strike_price + item.call_put;
             spanQut.innerHTML = " " + "(" + qtySher + ")";
             divqut.innerHTML = "QUT : " + item.quantity;
@@ -439,6 +429,7 @@
         var qtyS2 = 0;
 
         data.forEach(function (items) {
+          // console.log(items, "items==>")
           if (items.strategy_id % 2 == 0) {
             profitCount +=
               items.buy_sell === "Buy"
@@ -446,8 +437,8 @@
                   ? items.pnl
                   : items.current_value - items.entry_price
                 : items.pnl
-                ? items.pnl
-                : items.entry_price - items.current_value;
+                  ? items.pnl
+                  : items.entry_price - items.current_value;
             qtyS1 += items.quantity;
 
             totalprofitCount +=
@@ -456,8 +447,8 @@
                   ? items.pnl * items.quantity
                   : (items.current_value - items.entry_price) * items.quantity
                 : items.pnl
-                ? items.pnl * items.quantity
-                : (items.entry_price - items.current_value) * items.quantity;
+                  ? items.pnl * items.quantity
+                  : (items.entry_price - items.current_value) * items.quantity;
             totalqty += items.quantity;
             if (items.orderError) {
               document
@@ -468,16 +459,16 @@
             } else {
               document.getElementById(`profitTd${items.id}`).innerText = items
                 ? isNaN(
-                    (items.exit_date_time !== null
-                      ? items.exit_price - items.entry_price
-                      : items.current_value - items.entry_price
-                    ).toFixed(2)
-                  )
+                  (items.exit_date_time !== null
+                    ? items.exit_price - items.entry_price
+                    : items.current_value - items.entry_price
+                  ).toFixed(2)
+                )
                   ? "0.00"
                   : (items.exit_date_time !== null
-                      ? items.exit_price - items.entry_price
-                      : items.current_value - items.entry_price
-                    ).toFixed(2)
+                    ? items.exit_price - items.entry_price
+                    : items.current_value - items.entry_price
+                  ).toFixed(2)
                 : "0.00";
             }
 
@@ -486,18 +477,18 @@
                 ? items.orderError
                   ? "0.00"
                   : isNaN(
-                      (items.exit_date_time !== null
-                        ? (items.exit_price - items.entry_price) *
-                          items.quantity
-                        : (items.current_value - items.entry_price) *
-                          items.quantity
-                      ).toFixed(2)
-                    )
-                  ? "0.00"
-                  : (items.exit_date_time !== null
+                    (items.exit_date_time !== null
+                      ? (items.exit_price - items.entry_price) *
+                      items.quantity
+                      : (items.current_value - items.entry_price) *
+                      items.quantity
+                    ).toFixed(2)
+                  )
+                    ? "0.00"
+                    : (items.exit_date_time !== null
                       ? (items.exit_price - items.entry_price) * items.quantity
                       : (items.current_value - items.entry_price) *
-                        items.quantity
+                      items.quantity
                     ).toFixed(2)
                 : "0.00";
             document.getElementById("legs-stattus").innerText = items.exit_price
@@ -525,16 +516,16 @@
                   ? items.pnl
                   : items.current_value - items.entry_price
                 : items.pnl
-                ? items.pnl
-                : items.entry_price - items.current_value;
+                  ? items.pnl
+                  : items.entry_price - items.current_value;
             totalprofitCount1 +=
               items.buy_sell === "Buy"
                 ? items.pnl
                   ? items.pnl * items.quantity
                   : (items.current_value - items.entry_price) * items.quantity
                 : items.pnl
-                ? items.pnl * items.quantity
-                : (items.entry_price - items.current_value) * items.quantity;
+                  ? items.pnl * items.quantity
+                  : (items.entry_price - items.current_value) * items.quantity;
             if (items.orderError) {
               document
                 .getElementById(`profitTd${items.id}`)
@@ -550,22 +541,22 @@
               )
                 ? "0.00"
                 : (items.exit_date_time !== null
-                    ? items.exit_price - items.entry_price
-                    : items.current_value - items.entry_price
-                  ).toFixed(2);
+                  ? items.exit_price - items.entry_price
+                  : items.current_value - items.entry_price
+                ).toFixed(2);
             }
             document.getElementById(`totalprofitTd${items.id}`).innerText =
               items.orderError
                 ? "0.00"
                 : isNaN(
-                    (items.exit_date_time !== null
-                      ? (items.exit_price - items.entry_price) * items.quantity
-                      : (items.current_value - items.entry_price) *
-                        items.quantity
-                    ).toFixed(2)
-                  )
-                ? "0.00"
-                : (items.exit_date_time !== null
+                  (items.exit_date_time !== null
+                    ? (items.exit_price - items.entry_price) * items.quantity
+                    : (items.current_value - items.entry_price) *
+                    items.quantity
+                  ).toFixed(2)
+                )
+                  ? "0.00"
+                  : (items.exit_date_time !== null
                     ? (items.exit_price - items.entry_price) * items.quantity
                     : (items.current_value - items.entry_price) * items.quantity
                   ).toFixed(2);
@@ -577,24 +568,24 @@
           document.getElementById("profit").innerText = items.orderError
             ? "0.00"
             : isNaN(profitCount.toFixed(2))
-            ? "0.00"
-            : profitCount.toFixed(2);
+              ? "0.00"
+              : profitCount.toFixed(2);
           document.getElementById("totalprofit").innerHTML = items.orderError
             ? "0.00"
             : isNaN(totalprofitCount.toFixed(2))
-            ? "<b>" + "0.00" + "</b>"
-            : "<b>" + totalprofitCount.toFixed(2) + "</b>";
+              ? "<b>" + "0.00" + "</b>"
+              : "<b>" + totalprofitCount.toFixed(2) + "</b>";
           document.getElementById("profit1").innerText = items.orderError
             ? "0.00"
             : isNaN(profitCount1.toFixed(2))
-            ? "0.00"
-            : profitCount1.toFixed(2);
+              ? "0.00"
+              : profitCount1.toFixed(2);
 
           document.getElementById("totalprofit1").innerHTML = items.orderError
             ? "0.00"
             : isNaN(totalprofitCount1.toFixed(2))
-            ? "<b>" + "0.00" + "</b>"
-            : "<b>" + totalprofitCount1.toFixed(2) + "</b>";
+              ? "<b>" + "0.00" + "</b>"
+              : "<b>" + totalprofitCount1.toFixed(2) + "</b>";
 
           let entryBn = items.entry_bn;
 
@@ -611,12 +602,15 @@
             document.getElementById("point-reached").innerText =
               (pointPlus - btPrice).toFixed(2) +
               (pointMinus - btPrice).toFixed(2);
-          } else {
+          } else if (items.point_reach === true) {
             // document.getElementsByClassName("all-order-market").setAttribute(dis)
             // document.getElementById("all-order-market").disabled = true;
             // document.getElementById("all-order-sl").disabled = true;
             document.getElementById("point-reached").innerText =
               "Point reached";
+          } else {
+            document.getElementById("point-reached").innerText =
+              "Exit time reached";
           }
 
           document.getElementById("pointReach").innerText =
@@ -654,13 +648,13 @@
         )
           ? "0.00"
           : isNaN(
-              (
-                (totalprofitCount / qtyS1) * lotSize +
-                (totalprofitCount1 / qtyS2) * lotSize
-              ).toFixed(2)
-            )
-          ? "0.00"
-          : (
+            (
+              (totalprofitCount / qtyS1) * lotSize +
+              (totalprofitCount1 / qtyS2) * lotSize
+            ).toFixed(2)
+          )
+            ? "0.00"
+            : (
               (totalprofitCount / qtyS1) * lotSize +
               (totalprofitCount1 / qtyS2) * lotSize
             ).toFixed(2);

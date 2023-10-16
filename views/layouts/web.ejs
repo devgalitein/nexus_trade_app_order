@@ -1,77 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-    />
-    <%- include('../style/styles.ejs'); -%>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
+  <%- include('../style/styles.ejs'); -%>
 
     <!-- <link rel="stylesheet" href="../style/styles.ejs" /> -->
 
     <title>NUXUS TRADE APP</title>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="main-wraper">
-        <div class="sidebar-main">
-          <ul class="nav nav-pills sidebar-ul" id="menu">
-            <li class="nav-item">
-              <a href="/" class="nav-link align-middle px-0">
-                <span class="fs-5 d-sm-inline">Menu</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/" class="nav-link align-middle px-0">
-                <i class="fs-4 bi-house"></i>
-                <span class="ms-1 d-sm-inline">Setting</span>
-              </a>
-            </li>
+</head>
 
-            <li class="nav-item">
-              <a onclick="check()" class="nav-link px-0 align-middle">
-                <i class="fs-4 bi-table"></i>
-                <span class="ms-1 d-sm-inline">Market live</span></a
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="main-content"><%- body %></div>
+<body>
+  <div class="container-fluid">
+    <div class="main-wraper">
+      <div class="sidebar-main">
+        <ul class="nav nav-pills sidebar-ul" id="menu">
+          <li class="nav-item">
+            <a href="/" class="nav-link align-middle px-0">
+              <span class="fs-5 d-sm-inline">Menu</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/" class="nav-link align-middle px-0">
+              <i class="fs-4 bi-house"></i>
+              <span class="ms-1 d-sm-inline">Setting</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a onclick="check()" class="nav-link px-0 align-middle" role="button">
+              <i class="fs-4 bi-table"></i>
+              <span class="ms-1 d-sm-inline ">Market live</span></a>
+          </li>
+        </ul>
       </div>
+      <div class="main-content"><%- body %></div>
     </div>
-    <!-- <div class="container"></div> -->
-  </body>
-  <script src="<%=baseURL%>/assets/js/ejs.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; access_token=`);
-    let api_key;
-    if (parts.length === 2) {
-      api_key = parts.pop().split(";").shift();
+  </div>
+  <!-- <div class="container"></div> -->
+</body>
+<script src="<%=baseURL%>/assets/js/ejs.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; access_token=`);
+  let api_key;
+  if (parts.length === 2) {
+    api_key = parts.pop().split(";").shift();
+  }
+  function check() {
+    if (api_key) {
+      location.href = `/marketOrder?action=login&type=login&status=success&request_token=${api_key}&MarketOrder=`;
+    } else {
+      location.href = "/marketOrder";
     }
-    function check() {
-      if (api_key) {
-        location.href = `/marketOrder?action=login&type=login&status=success&request_token=${api_key}&MarketOrder=`;
-      } else {
-        location.href = "/marketOrder";
-      }
-      // console.log("${document.cookie}", api_key);
-    }
+    // console.log("${document.cookie}", api_key);
+  }
 
-    // var match = document.cookie.match(
-    //   new RegExp("(^| )" + "access_token" + "=([^;]+)")
-    // );
-  </script>
-  <script
-    src="https://kit.fontawesome.com/c03ec31dc2.js"
-    crossorigin="anonymous"
-  ></script>
+  // var match = document.cookie.match(
+  //   new RegExp("(^| )" + "access_token" + "=([^;]+)")
+  // );
+</script>
+<script src="https://kit.fontawesome.com/c03ec31dc2.js" crossorigin="anonymous"></script>
 
-  <%- script %>
+<%- script %>
+
 </html>
