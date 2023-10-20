@@ -11,6 +11,7 @@ const moment = require("moment");
 const sql = require("../models/sqlConnection");
 const logger = require("../logger");
 const { LOT_QUANTITY } = require("../utils/constant");
+const { createLogFile } = require("../config/helper");
 
 const {
   getOrdersLegs,
@@ -719,10 +720,12 @@ exports.addOrder = async (req, res) => {
         sql.query(
           `SELECT * FROM orders where leg_id=${
             element.leg_id
-          } AND created_at ="${moment().format("YYYY-MM-DD")}"
+          } AND created_at ="${moment().format(
+            "YYYY-MM-DD"
+          )}" AND strike_price = "${element.strike_price}" AND buy_sell = "Buy"
 					AND quantity=${element.quantity} AND order_created=${element.order_created}`,
           async (err, result) => {
-            // console.log(result, "result==>");
+            console.log(result, "result==>");
             if (result && result.length <= 0) {
               let params = {
                 exchange: "NFO",
@@ -737,8 +740,19 @@ exports.addOrder = async (req, res) => {
               // console.log("params==>", params);
               const place_order = await placeOrder("regular", params);
               const orderData = await getOrderdata(place_order.order_id);
+
+              // if (orderData?.[2].status) {
+              //   createLogFile(500, orderData?.[2]?.status_message);
+              // }
               // console.log(orderData, "order==>");
               element.order_live_id = place_order?.order_id;
+              // console.log(place_order, "order==>");
+              // if (place_order?.order_id) {
+              //   createLogFile(
+              //     200,
+              //     `PlaceOrder successfully - ${element.strike_price}`
+              //   );
+              // }
               element.order_error = orderData?.[2].status
                 ? orderData?.[2]?.status_message
                 : "";
@@ -847,7 +861,7 @@ exports.orderExitFunction = async (req, result) => {
   if (bnPrice) {
     //  = data;
     // console.log("enterbnprice==>");
-    let update_query = `UPDATE orders SET exit_price = ${currentRate},exit_date_time="${currentTime}",buy_sell="${"sell"}",pnl=${rateDiff} ,exit_bn=${bnPrice},point_reach="${pointReach}",order_created= 0 WHERE orders.id = ${
+    let update_query = `UPDATE orders SET exit_price = ${currentRate},exit_date_time="${currentTime}",buy_sell="sell",pnl=${rateDiff} ,exit_bn=${bnPrice},point_reach="${pointReach}",order_created= 0 WHERE orders.id = ${
       order.id
     } AND created_at='${moment().format("YYYY-MM-DD")}' `;
     let params = {
@@ -882,6 +896,17 @@ exports.orderExitFunction = async (req, result) => {
       params.exit_date_time = currentTime;
       params.time = moment().format("YYYY-MM-DD HH:mm:ss");
       params.exit_bn = bnPrice;
+      if (pointReach === true) {
+        createLogFile(
+          200,
+          `Reason: Point Reached - order sell successfully ${order.strike_price}`
+        );
+      } else {
+        createLogFile(
+          200,
+          `Reason: Exit time Reached - order sell successfully  ${order.strike_price}`
+        );
+      }
       logger.log("info", params);
     } else {
       console.log("come from else part in exit functions");

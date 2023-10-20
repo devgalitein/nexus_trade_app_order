@@ -176,18 +176,20 @@
           "Q" +
           data[0].setting_data[0]?.quantity / lotSize
           : "";
-      document.getElementById("s1l2").value =
-        data[0].setting_data[1].active_leg === 0
-          ? data[0].setting_data[1]?.buy_sell +
-          " " +
-          secondlegValue +
-          data[0].setting_data[1]?.strike_price +
-          " " +
-          data[0].setting_data[1]?.call_put +
-          " " +
-          "Q" +
-          data[0].setting_data[1]?.quantity / lotSize
-          : "";
+      // document.getElementById("s1l2").value =
+      //   data[0].setting_data[1].active_leg === 0
+      //     ? data[0].setting_data[1]?.buy_sell +
+      //     " " +
+      //     secondlegValue +
+      //     data[0].setting_data[1]?.strike_price +
+      //     " " +
+      //     data[0].setting_data[1]?.call_put +
+      //     " " +
+      //     "Q" +
+      //     data[0].setting_data[1]?.quantity / lotSize
+      //     : "";
+
+      document.getElementById("s1l2").value = ""
       document.getElementById("s2l1").value =
         data[0].setting_data[2].active_leg === 0
           ? data[0].setting_data[2]?.buy_sell +
@@ -200,18 +202,20 @@
           "Q" +
           data[0].setting_data[2]?.quantity / lotSize
           : "";
-      document.getElementById("s2l2").value =
-        data[0].setting_data[3].active_leg === 0
-          ? data[0].setting_data[3]?.buy_sell +
-          " " +
-          forthlegValue +
-          data[0].setting_data[3]?.strike_price +
-          " " +
-          data[0].setting_data[3]?.call_put +
-          " " +
-          "Q" +
-          data[0].setting_data[3]?.quantity / lotSize
-          : "";
+      // document.getElementById("s2l2").value =
+      //   data[0].setting_data[3].active_leg === 0
+      //     ? data[0].setting_data[3]?.buy_sell +
+      //     " " +
+      //     forthlegValue +
+      //     data[0].setting_data[3]?.strike_price +
+      //     " " +
+      //     data[0].setting_data[3]?.call_put +
+      //     " " +
+      //     "Q" +
+      //     data[0].setting_data[3]?.quantity / lotSize
+      //     : "";
+
+      document.getElementById("s2l2").value = ""
       document.getElementById("setting_id").value =
         data[0].setting_data[0].id;
       document.getElementById("str1_id").value = data[1].str_value[0].id;

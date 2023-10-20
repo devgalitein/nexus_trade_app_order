@@ -2,6 +2,7 @@ const sql = require("../models/sqlConnection");
 const db = require("../models/index");
 const { getQuotes } = require("../config/kiteConnect");
 const moment = require("moment");
+const fs = require("fs");
 const watchListModel = db.watchList;
 const watchLists_backup = db.watchLists_backup;
 const getOrdersLegs = async () => {
@@ -64,9 +65,29 @@ const getThursdayDate = () => {
 
   return isBetween;
 };
+
+// const createLogFile = (statusCode, message) => {
+//   const date = new Date();
+//   const day = date.getDate();
+//   const year = 2023;
+//   const month = date.getMonth();
+//   console.log(date, day, year, month);
+
+//   const template = `${date}: \n ${statusCode} \n ${message}`;
+//   fs.appendFile(
+//     `E:/html/nexus_trade_app_order/logs/orders_${day}_${month}_${year}.txt`,
+//     `\n ${date}: ${statusCode} \n ${message} \n`,
+//     function (err) {
+//       if (err) throw err;
+//       console.log("Saved!");
+//     }
+//   );
+// };
+
 module.exports = {
   getOrdersLegs,
   getNiftyPrice,
   getdays,
   getThursdayDate,
+  // createLogFile,
 };
