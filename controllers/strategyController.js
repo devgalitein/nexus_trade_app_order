@@ -51,8 +51,14 @@ if (months.includes(getMonth)) {
   // console.log("enter1");
   let getYear = moment(thurdate).format("YY");
   let getDay = moment(thurdate).format("DD");
-  const month = getMonth.split("")[0];
-  getThurday = `${getYear}${month}${getDay}`;
+
+  if (!isLastWeek) {
+    const month = getMonth.split("")[0];
+    getThurday = `${getYear}${month}${getDay}`;
+  } else {
+    getThurday = moment(thurdate).format("YYMMM").toUpperCase();
+    // getThurday = moment(thurdate).format("YYMMM");
+  }
 } else {
   getThurday = moment(thurdate).format("YYMDD");
 }
@@ -741,18 +747,18 @@ exports.addOrder = async (req, res) => {
               const place_order = await placeOrder("regular", params);
               const orderData = await getOrderdata(place_order.order_id);
 
-              // if (orderData?.[2].status) {
-              //   createLogFile(500, orderData?.[2]?.status_message);
-              // }
+              if (orderData?.[2].status) {
+                createLogFile(500, orderData?.[2]?.status_message);
+              }
               // console.log(orderData, "order==>");
               element.order_live_id = place_order?.order_id;
               // console.log(place_order, "order==>");
-              // if (place_order?.order_id) {
-              //   createLogFile(
-              //     200,
-              //     `PlaceOrder successfully - ${element.strike_price}`
-              //   );
-              // }
+              if (place_order?.order_id) {
+                createLogFile(
+                  200,
+                  `PlaceOrder successfully - ${element.strike_price}`
+                );
+              }
               element.order_error = orderData?.[2].status
                 ? orderData?.[2]?.status_message
                 : "";
@@ -768,6 +774,7 @@ exports.addOrder = async (req, res) => {
       // console.log("orderArrorderArr", orderArr);
     }
   } catch (err) {
+    createLogFile(500, "something went wrong");
     console.log("err");
   }
 };
@@ -882,6 +889,7 @@ exports.orderExitFunction = async (req, result) => {
     ) {
       sql.query(update_query, async (err, res) => {
         if (err) {
+          createLogFile(500, "Error in order exititFunction query.");
           console.log(err);
         } else {
           console.log(

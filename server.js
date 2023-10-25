@@ -116,13 +116,15 @@ app.use(expressLayouts);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 app.set("layout", "layouts/web");
 app.set("layout extractStyles", true);
 app.set("layout extractScripts", true);
 app.set("views", path.join(__dirname, "views"));
+app.set("config", path.join(__dirname, "logs"));
 
 const server = http.createServer(app);
 const io = new Server(server);
